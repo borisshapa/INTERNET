@@ -4,11 +4,8 @@ package com.example.socadd;
  * Created by пк on 10.05.2017.
  */
 
-
-        import java.text.DecimalFormat;
         import java.text.SimpleDateFormat;
         import java.util.Calendar;
-
         import android.annotation.SuppressLint;
         import android.app.Activity;
         import android.app.ActivityManager;
@@ -30,28 +27,16 @@ package com.example.socadd;
 public class ServiceSocial extends Service {
 
     /**
-     *
-     * This is the service of the counter of socials addict. it works to detect
-     * the apps runnning then trigger custom timers when the certain app is
-     * running.
-     *
-     * for pre-lollipop
+     * Этот сервис определяет зарущенное приложение
+     * и отслеживает время его работы
      **/
 
     private Handler mainhandler;
     private Handler customHandlerfacebook = new Handler();
     private Handler customHandlertwitter = new Handler();
     private Handler customHandlerinstagram = new Handler();
-    private Handler customHandlertumblr = new Handler();
-    private Handler customHandlerwhatsapp = new Handler();
-    private Handler customHandlerbbm = new Handler();
-    private Handler customHandlerkik = new Handler();
-    private Handler customHandlerask = new Handler();
-    private Handler customHandlersnap = new Handler();
-    private Handler customHandlerkikm = new Handler();
 
-    Boolean facebook, twitter, tumblr, whatsapp, instagram, kik, bbm, ask,
-            kikm, snapchatt;
+    Boolean facebook, twitter, instagram;
 
     double total, totalsec, totalmin, totalall, totalall1, totalall2;
 
@@ -65,21 +50,15 @@ public class ServiceSocial extends Service {
 
     double addict;
 
-    public static int facebooktemp1, facebooktemp2, facebooktemp3,
-            twittertemp1, twittertemp2, twittertemp3, instagramtemp1,
-            instagramtemp2, instagramtemp3, whatsapptemp1, whatsapptemp2,
-            whatsapptemp3, tumblrtemp1, tumblrtemp2, tumblrtemp3, kiktemp1,
-            kiktemp2, kiktemp3, asktemp1, asktemp3, asktemp2, bbmtemp1,
-            bbmtemp2, bbmtemp3, servicetemp1, servicetemp2, servicetemp3,
-            kikm1, kikm2, kikm3, snap1, snap2, snap3;
+    public static int facebooktemp1, facebooktemp2, facebooktemp3, twittertemp1,
+            twittertemp2, twittertemp3, instagramtemp1, instagramtemp2,
+            instagramtemp3, servicetemp1, servicetemp2, servicetemp3;
 
-    public static String fbcheck, whatsappcheck, tumblrcheck, instacheck,
-            twcheck, askcheck, bbmcheck, kikcheck, starti, fb1, fb2, fb3,
-            whats1, whats2, whats3, twittr1, twittr2, twittr3, kiki1, kiki2,
-            kiki3, tmblr1, tmblr2, tmblr3, ask1, ask2, ask3, bbm1, bbm2, bbm3,
-            insta1, insta2, insta3, ser1, ser2, ser3, packageName, kikmsec,
-            kikmhour, kikmmin, snaphour, snapmin, snapsec, snapcheck,
-            kikmcheck, not, clear, rp, rich, state, totals, start;
+    public static String fbcheck, instacheck,
+            twcheck, starti, fb1, fb2, fb3,
+            twittr1, twittr2, twittr3,
+            insta1, insta2, insta3, ser1, ser2, ser3, packageName,
+            not, clear, rp, rich, state, totals, start;
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -88,25 +67,15 @@ public class ServiceSocial extends Service {
     }
 
     /**
-     *
-     * This Method loads the values of timers from shared preferences. values
-     * are strings converted to integers then used in handlers
-     *
-     *
+     * Этот метод загружает значения времени из spf.
+     * Значения хранятся в строках и преобразуются в integer потом используются в handler
      **/
 
     public void load() {
 
         fbcheck = spf.getString("facebook", "true");
-        kikcheck = spf.getString("kik", "true");
-        bbmcheck = spf.getString("bbm", "true");
-        askcheck = spf.getString("ask", "true");
         twcheck = spf.getString("twitter", "true");
         instacheck = spf.getString("instagram", "true");
-        tumblrcheck = spf.getString("tumblr", "true");
-        whatsappcheck = spf.getString("whatsapp", "true");
-        snapcheck = spf.getString("snapchat", "true");
-        kikmcheck = spf.getString("kikm", "true");
         rich = spf.getString("rich", "false");
         totals = spf.getString("total", "0.0");
 
@@ -124,37 +93,9 @@ public class ServiceSocial extends Service {
         twittr2 = spf.getString("twittermin", "0");
         twittr3 = spf.getString("twitterhour", "0");
 
-        ask1 = spf.getString("asksec", "0");
-        ask2 = spf.getString("askmin", "0");
-        ask3 = spf.getString("askhour", "0");
-
         insta1 = spf.getString("instagramsec", "0");
         insta2 = spf.getString("instagrammin", "0");
         insta3 = spf.getString("instagramhour", "0");
-
-        tmblr1 = spf.getString("tumblrsec", "0");
-        tmblr2 = spf.getString("tumblrmin", "0");
-        tmblr3 = spf.getString("tumblrhour", "0");
-
-        bbm1 = spf.getString("bbmsec", "0");
-        bbm2 = spf.getString("bbmmin", "0");
-        bbm3 = spf.getString("bbmhour", "0");
-
-        whats1 = spf.getString("whatsappsec", "0");
-        whats2 = spf.getString("whatsappmin", "0");
-        whats3 = spf.getString("whatsapphour", "0");
-
-        kiki1 = spf.getString("kiksec", "0");
-        kiki2 = spf.getString("kikmin", "0");
-        kiki3 = spf.getString("kikhour", "0");
-
-        kikmsec = spf.getString("kikmsec", "0");
-        kikmhour = spf.getString("kikhour", "0");
-        kikmmin = spf.getString("kikmin", "0");
-
-        snaphour = spf.getString("snaphour", "0");
-        snapmin = spf.getString("snapmin", "0");
-        snapsec = spf.getString("snapsec", "0");
 
         facebooktemp1 = Integer.parseInt(fb3);
         facebooktemp2 = Integer.parseInt(fb2);
@@ -162,32 +103,10 @@ public class ServiceSocial extends Service {
         twittertemp1 = Integer.parseInt(twittr3);
         twittertemp2 = Integer.parseInt(twittr2);
         twittertemp3 = Integer.parseInt(twittr1);
-        whatsapptemp1 = Integer.parseInt(whats3);
-        whatsapptemp2 = Integer.parseInt(whats2);
-        whatsapptemp3 = Integer.parseInt(whats1);
-        tumblrtemp1 = Integer.parseInt(tmblr3);
-        tumblrtemp2 = Integer.parseInt(tmblr2);
-        tumblrtemp3 = Integer.parseInt(tmblr1);
+
         instagramtemp1 = Integer.parseInt(insta3);
         instagramtemp2 = Integer.parseInt(insta2);
         instagramtemp3 = Integer.parseInt(insta1);
-        bbmtemp1 = Integer.parseInt(bbm3);
-        bbmtemp2 = Integer.parseInt(bbm2);
-        bbmtemp3 = Integer.parseInt(bbm1);
-        asktemp1 = Integer.parseInt(ask3);
-        asktemp2 = Integer.parseInt(ask2);
-        asktemp3 = Integer.parseInt(ask1);
-        kiktemp1 = Integer.parseInt(kiki3);
-        kiktemp2 = Integer.parseInt(kiki2);
-        kiktemp3 = Integer.parseInt(kiki1);
-
-        kikm1 = Integer.parseInt(kikmhour);
-        kikm2 = Integer.parseInt(kikmmin);
-        kikm3 = Integer.parseInt(kikmsec);
-
-        snap1 = Integer.parseInt(snaphour);
-        snap2 = Integer.parseInt(snapmin);
-        snap3 = Integer.parseInt(snapsec);
 
         servicetemp3 = Integer.parseInt(ser3);
         servicetemp2 = Integer.parseInt(ser2);
@@ -198,7 +117,6 @@ public class ServiceSocial extends Service {
     @Override
     public void onCreate() {
 
-        // not is abbreviated "notification"
 
         spf = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -206,26 +124,20 @@ public class ServiceSocial extends Service {
         clear = spf.getString("clear", "false");
 
         if (not.isEmpty()) {
-
             save("not", "false");
-
         }
 
         if (clear.isEmpty()) {
-
             save("clear", "false");
-
         }
 
         if (!not.equals("true")) {
-
             showNotification("m");
-
         }
 
     }
 
-    @SuppressLint({ "HandlerLeak", "SimpleDateFormat" })
+    @SuppressLint({"HandlerLeak", "SimpleDateFormat"})
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
@@ -257,37 +169,9 @@ public class ServiceSocial extends Service {
                             save("twittermin", "00");
                             save("twitterhour", "00");
 
-                            save("whatsappsec", "00");
-                            save("whatsappmin", "00");
-                            save("whatsapphour", "00");
-
-                            save("tumblrsec", "00");
-                            save("tumblrmin", "00");
-                            save("tumblrhour", "00");
-
                             save("instagramsec", "00");
                             save("instagrammin", "00");
                             save("instagramhour", "00");
-
-                            save("asksec", "00");
-                            save("askmin", "00");
-                            save("askhour", "00");
-
-                            save("bbmsec", "00");
-                            save("bbmmin", "00");
-                            save("bbmhour", "00");
-
-                            save("kiksec", "00");
-                            save("kikmin", "00");
-                            save("kikhour", "00");
-
-                            save("snaphour", "00");
-                            save("snapsec", "00");
-                            save("snapmin", "00");
-
-                            save("kikmmin", "00");
-                            save("kikmsec", "00");
-                            save("kikmhour", "00");
 
                             save("servicesec", "00");
                             save("servicemin", "00");
@@ -302,25 +186,21 @@ public class ServiceSocial extends Service {
 
                     load();
 
-                    // This is the total consumption
 
                     totalmin = (double) (facebooktemp2 + twittertemp2
-                            + whatsapptemp2 + instagramtemp2 + tumblrtemp2
-                            + kiktemp2 + bbmtemp2 + asktemp2 + kikm2 + snap2);
+                            + instagramtemp2);
 
                     totalsec = (double) (facebooktemp3 + twittertemp3
-                            + whatsapptemp3 + instagramtemp3 + tumblrtemp3
-                            + kiktemp3 + bbmtemp3 + asktemp3 + kikm3 + snap3);
+                            + instagramtemp3);
 
-                    totalall1 = ((double) totalmin / (double) x); // total mins
+                    totalall1 = ((double) totalmin / (double) x);
 
-                    totalall2 = ((double) totalsec / (double) y); // totals secs
+                    totalall2 = ((double) totalsec / (double) y);
 
                     totalall = (double) (totalall1 + totalall2);
 
                     total = (double) (facebooktemp1 + twittertemp1
-                            + whatsapptemp1 + instagramtemp1 + tumblrtemp1
-                            + kiktemp1 + bbmtemp1 + asktemp1 + totalall + kikm1 + snap1);
+                            + instagramtemp1 + totalall);
 
                     save("total", String.valueOf(total));
 
@@ -394,18 +274,19 @@ public class ServiceSocial extends Service {
                         }
                     }
                 }
-
+                //Основная реализация задумки
                 ActivityManager am = (ActivityManager) getApplicationContext()
                         .getSystemService(Activity.ACTIVITY_SERVICE);
 
                 packageName = am.getRunningTasks(1).get(0).topActivity
                         .getPackageName();
-                Log.d("MyLogs",packageName);
+
+                Log.d("MyLogs", packageName);
 
                 if (starti.equals("true")) {
 
                     if (fbcheck.equals("true")) {
-
+                        //TODO убрать calendar
                         if (packageName.equals("com.facebook.katana")
                                 || packageName.equals("com.android.calendar")
                                 || packageName.equals("app.fastfacebook.com")
@@ -495,266 +376,6 @@ public class ServiceSocial extends Service {
                         }
                     }
 
-                    // ////////////////
-
-                    if (bbmcheck.equals("true")) {
-
-                        if (packageName.equals("com.bbm")) {
-
-                            if (b == 1) {
-
-                            } else {
-
-                                b = 1;
-                                bbm = true;
-                                customHandlerbbm.postDelayed(
-                                        updateTimerThreadbbm, 0);
-                            }
-                        } else {
-                            if (b == 1) {
-
-                                bbm = false;
-
-                                customHandlerbbm
-                                        .removeCallbacks(updateTimerThreadbbm);
-                                b = 2;
-                            }
-                        }
-                    } else {
-                        if (b == 1) {
-
-                            bbm = false;
-
-                            customHandlerbbm
-                                    .removeCallbacks(updateTimerThreadbbm);
-                            b = 2;
-                        }
-                    }
-
-                    if (askcheck.equals("true")) {
-                        if (packageName.equals("com.askfm")) {
-
-                            if (a == 1) {
-
-                            } else {
-
-                                a = 1;
-                                ask = true;
-                                customHandlerask.postDelayed(
-                                        updateTimerThreadask, 0);
-                            }
-                        } else {
-                            if (a == 1) {
-
-                                ask = false;
-
-                                customHandlerask
-                                        .removeCallbacks(updateTimerThreadask);
-                                a = 2;
-                            }
-                        }
-                    } else {
-                        if (a == 1) {
-
-                            ask = false;
-
-                            customHandlerask
-                                    .removeCallbacks(updateTimerThreadask);
-                            a = 2;
-                        }
-                    }
-
-                    if (kikcheck.equals("true")) {
-                        if (packageName.equals("com.google.android.apps.plus")
-                                || packageName
-                                .equals("com.google.android.talk")) {
-
-                            if (k == 1) {
-
-                            } else {
-
-                                k = 1;
-                                kik = true;
-                                customHandlerkik.postDelayed(
-                                        updateTimerThreadkik, 0);
-                            }
-                        } else {
-                            if (k == 1) {
-
-                                kik = false;
-
-                                customHandlerkik
-                                        .removeCallbacks(updateTimerThreadkik);
-                                k = 2;
-                            }
-                        }
-                    } else {
-                        if (k == 1) {
-
-                            kik = false;
-
-                            customHandlerkik
-                                    .removeCallbacks(updateTimerThreadkik);
-                            k = 2;
-                        }
-                    }
-
-                    // //////
-
-                    if (whatsappcheck.equalsIgnoreCase("true")) {
-
-                        if (packageName.equals("com.whatsapp")) {
-
-                            if (w == 1) {
-
-                            } else {
-
-                                w = 1;
-                                whatsapp = true;
-
-                                customHandlerwhatsapp.postDelayed(
-                                        updateTimerThreadwhatsapp, 0);
-                            }
-                        } else {
-                            if (w == 1) {
-
-                                whatsapp = false;
-
-                                customHandlerwhatsapp
-                                        .removeCallbacks(updateTimerThreadwhatsapp);
-                                w = 2;
-                            }
-                        }
-                    } else {
-                        if (w == 1) {
-
-                            whatsapp = false;
-
-                            customHandlerwhatsapp
-                                    .removeCallbacks(updateTimerThreadwhatsapp);
-                            w = 2;
-                        }
-                    }
-
-                    if (tumblrcheck.equalsIgnoreCase("true")) {
-                        if (packageName.equals("com.tumblr")) {
-
-                            if (tu == 1) {
-
-                            } else {
-
-                                tu = 1;
-                                tumblr = true;
-                                customHandlertumblr.postDelayed(
-                                        updateTimerThreadtumblr, 0);
-                            }
-                        } else {
-                            if (tu == 1) {
-
-                                tumblr = false;
-
-                                customHandlertumblr
-                                        .removeCallbacks(updateTimerThreadtumblr);
-                                tu = 2;
-                            }
-                        }
-                    } else {
-                        if (tu == 1) {
-
-                            tumblr = false;
-
-                            customHandlertumblr
-                                    .removeCallbacks(updateTimerThreadtumblr);
-                            tu = 2;
-                        }
-                    }
-
-                    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                    if (kikmcheck.equals("true")) {
-
-                        if (packageName.equals("kik.android")) {
-
-                            if (km == 1) {
-
-                            } else {
-
-                                km = 1;
-                                kikm = true;
-                                customHandlerkikm.postDelayed(
-                                        updateTimerThreadkikm, 0);
-                            }
-
-                        } else {
-
-                            if (km == 1) {
-
-                                kikm = false;
-                                customHandlerkikm
-                                        .removeCallbacks(updateTimerThreadkikm);
-                                k = 2;
-                                System.gc();
-                            }
-                        }
-                    } else {
-
-                        if (km == 1) {
-
-                            kikm = false;
-                            customHandlerkikm
-                                    .removeCallbacks(updateTimerThreadkikm);
-                            km = 2;
-                            System.gc();
-
-                        }
-
-                    }
-
-                    // //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                    if (snapcheck.equals("true")) {
-
-                        if (packageName.equals("com.snapchat.android")) {
-
-                            if (s == 1) {
-
-                            } else {
-
-                                s = 1;
-                                snapchatt = true;
-
-                                customHandlersnap.postDelayed(
-                                        updateTimerThreadsnap, 0);
-                            }
-
-                        } else {
-
-                            if (s == 1) {
-
-                                snapchatt = false;
-
-                                customHandlersnap
-                                        .removeCallbacks(updateTimerThreadsnap);
-                                s = 2;
-                                System.gc();
-
-                            }
-                        }
-                    } else {
-
-                        if (s == 1) {
-
-                            snapchatt = false;
-
-                            customHandlersnap
-                                    .removeCallbacks(updateTimerThreadsnap);
-                            s = 2;
-                            System.gc();
-
-                        }
-
-                    }
-                    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                     if (instacheck.equals("true")) {
                         if (packageName.equals("com.instagram.android")) {
@@ -816,14 +437,6 @@ public class ServiceSocial extends Service {
         return START_STICKY;
     }
 
-    public void saveint(String key, int integer) {
-
-        spf = PreferenceManager.getDefaultSharedPreferences(this);
-        Editor edit = spf.edit();
-        edit.putInt(key, integer);
-        edit.commit();
-
-    }
 
     @SuppressLint("InlinedApi")
     private void showNotification(String m) {
@@ -834,39 +447,18 @@ public class ServiceSocial extends Service {
         PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(this, 0,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-       /* Intent settingIntent = new Intent(this, settinggg.class);
-        PendingIntent pendingIntentCancel1 = PendingIntent.getBroadcast(this,
-                0, settingIntent, PendingIntent.FLAG_UPDATE_CURRENT);*/
 
-        Intent reprt = new Intent(this, report.class);
-        PendingIntent pendingIntentCancel2 = PendingIntent.getBroadcast(this,
-                0, reprt, PendingIntent.FLAG_UPDATE_CURRENT);
+
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 this);
-        mBuilder.setContentTitle("Socials Addict");
+        //TODO вставить название
+        mBuilder.setContentTitle("мой проект");
 
-        if (rich.equals("true")) {
-
-            DecimalFormat df = new DecimalFormat("#.##");
-            Double D = Double.parseDouble(totals);
-
-            mBuilder.setContentText("Monitoring Usage" + " | " + m + " | "
-                    + "Total : " + df.format(D) + " Hours");
-            mBuilder.setTicker("Socials Addict.. " + "You are in " + m
-                    + " level");
-
-        } else {
-
-            mBuilder.setContentText("Monitoring Usage..");
-            mBuilder.setTicker("Socials Addict");
-
-        }
 
         mBuilder.setSmallIcon(R.drawable.ic_launcher);
-        mBuilder.addAction(0, "Stop service", pendingIntentCancel);
-        //mBuilder.addAction(0, "Setting", pendingIntentCancel1);
-        mBuilder.addAction(0, "Usage", pendingIntentCancel2);
+
+
 
         mBuilder.setOngoing(true);
 
@@ -883,8 +475,6 @@ public class ServiceSocial extends Service {
 
     }
 
-    // when service is turned off
-    // Notification is killed
 
     public void onDestroy() {
         super.onDestroy();
@@ -953,24 +543,18 @@ public class ServiceSocial extends Service {
                 // --------------------------------
 
                 if (facebooktemp3 < 10) {
-
                     facesec = "0" + facebooktemp3;
-
                 }
 
                 if (facebooktemp2 < 10) {
-
                     facemin = "0" + facebooktemp2;
-
                 }
 
                 if (facebooktemp1 < 10) {
-
                     facehour = "0" + facebooktemp1;
-
                 }
 
-                // --------------------------------
+
 
                 save("facebooksec", facesec);
                 save("facebookmin", facemin);
@@ -1002,40 +586,32 @@ public class ServiceSocial extends Service {
                 if (twittertemp3 >= 60) {
                     twittertemp3 = 0;
                     twittertemp2 += 1;
-
                 }
 
                 if (twittertemp2 >= 60) {
                     twittertemp2 = 0;
                     twittertemp1 += 1;
-
                 }
 
                 tmin = "" + twittertemp2;
                 tsec = "" + twittertemp3;
                 thour = "" + twittertemp1;
 
-                // --------------------------------
+
 
                 if (twittertemp3 < 10) {
-
                     tsec = "0" + twittertemp3;
-
                 }
 
                 if (twittertemp2 < 10) {
-
                     tmin = "0" + twittertemp2;
-
                 }
 
                 if (twittertemp1 < 10) {
-
                     thour = "0" + twittertemp1;
-
                 }
 
-                // --------------------------------
+
 
                 save("twittersec", tsec);
                 save("twittermin", tmin);
@@ -1048,137 +624,6 @@ public class ServiceSocial extends Service {
 
     };
 
-    private Runnable updateTimerThreadwhatsapp = new Runnable() {
-
-        String wsec, whour, wmin;
-
-        public void run() {
-
-            try {
-
-                Thread.sleep(1000);
-
-            } catch (InterruptedException e) {
-
-                e.printStackTrace();
-
-            }
-
-            if (whatsapp = true) {
-
-                whatsapptemp3++;
-
-                if (whatsapptemp3 >= 60) {
-                    whatsapptemp3 = 0;
-                    whatsapptemp2 += 1;
-
-                }
-                if (whatsapptemp2 >= 60) {
-                    whatsapptemp2 = 0;
-                    whatsapptemp1 += 1;
-
-                }
-
-                wmin = "" + whatsapptemp2;
-                wsec = "" + whatsapptemp3;
-                whour = "" + whatsapptemp1;
-
-                // --------------------------------
-
-                if (whatsapptemp3 < 10) {
-
-                    wsec = "0" + whatsapptemp3;
-
-                }
-
-                if (whatsapptemp2 < 10) {
-
-                    wmin = "0" + whatsapptemp2;
-
-                }
-
-                if (whatsapptemp1 < 10) {
-
-                    whour = "0" + whatsapptemp1;
-
-                }
-
-                // --------------------------------
-
-                save("whatsappsec", wsec);
-                save("whatsappmin", wmin);
-                save("whatsapphour", whour);
-
-                customHandlerwhatsapp.postDelayed(this, 0);
-
-            }
-        }
-
-    };
-
-    private Runnable updateTimerThreadtumblr = new Runnable() {
-
-        String ttsec, tthour, ttmin;
-
-        public void run() {
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (tumblr = true) {
-
-                tumblrtemp3++;
-
-                if (tumblrtemp3 >= 60) {
-                    tumblrtemp3 = 0;
-                    tumblrtemp2 += 1;
-
-                }
-                if (tumblrtemp2 >= 60) {
-                    tumblrtemp2 = 0;
-                    tumblrtemp1 += 1;
-
-                }
-
-                ttmin = "" + tumblrtemp2;
-                ttsec = "" + tumblrtemp3;
-                tthour = "" + tumblrtemp1;
-
-                // --------------------------------
-
-                if (tumblrtemp3 < 10) {
-
-                    ttsec = "0" + tumblrtemp3;
-
-                }
-
-                if (tumblrtemp2 < 10) {
-
-                    ttmin = "0" + tumblrtemp2;
-
-                }
-
-                if (tumblrtemp1 < 10) {
-
-                    tthour = "0" + tumblrtemp1;
-
-                }
-
-                // --------------------------------
-
-                save("tumblrsec", ttsec);
-                save("tumblrmin", ttmin);
-                save("tumblrhour", tthour);
-
-                customHandlertumblr.postDelayed(this, 0);
-
-            }
-        }
-
-    };
 
     private Runnable updateTimerThreadinstagram = new Runnable() {
 
@@ -1199,39 +644,28 @@ public class ServiceSocial extends Service {
                 if (instagramtemp3 >= 60) {
                     instagramtemp3 = 0;
                     instagramtemp2 += 1;
-
                 }
                 if (instagramtemp2 >= 60) {
                     instagramtemp2 = 0;
                     instagramtemp1 += 1;
-
                 }
 
                 imin = "" + instagramtemp2;
                 isec = "" + instagramtemp3;
                 ihour = "" + instagramtemp2;
 
-                // --------------------------------
 
                 if (instagramtemp3 < 10) {
-
                     isec = "0" + instagramtemp3;
-
                 }
 
                 if (instagramtemp2 < 10) {
-
                     imin = "0" + instagramtemp2;
-
                 }
 
                 if (instagramtemp1 < 10) {
-
                     ihour = "0" + instagramtemp1;
-
                 }
-
-                // --------------------------------
 
                 save("instagramsec", isec);
                 save("instagrammin", imin);
@@ -1243,325 +677,5 @@ public class ServiceSocial extends Service {
         }
 
     };
+}
 
-    private Runnable updateTimerThreadkik = new Runnable() {
-
-        String ksec, khour, kmin;
-
-        public void run() {
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (kik = true) {
-
-                kiktemp3++;
-
-                if (kiktemp3 >= 60) {
-                    kiktemp3 = 0;
-                    kiktemp2 += 1;
-
-                }
-
-                if (kiktemp2 >= 60) {
-                    kiktemp2 = 0;
-                    kiktemp1 += 1;
-
-                }
-
-                kmin = "" + kiktemp2;
-                ksec = "" + kiktemp3;
-                khour = "" + kiktemp1;
-
-                // --------------------------------
-
-                if (kiktemp3 < 10) {
-
-                    ksec = "0" + kiktemp3;
-
-                }
-
-                if (kiktemp2 < 10) {
-
-                    kmin = "0" + kiktemp2;
-
-                }
-
-                if (kiktemp1 < 10) {
-
-                    khour = "0" + kiktemp1;
-
-                }
-
-                // --------------------------------
-
-                save("kiksec", ksec);
-                save("kikmin", kmin);
-                save("kikhour", khour);
-
-                customHandlerkik.postDelayed(this, 0);
-
-            }
-        }
-
-    };
-
-    private Runnable updateTimerThreadask = new Runnable() {
-
-        String asec, ahour, amin;
-
-        public void run() {
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (ask = true) {
-
-                asktemp3++;
-
-                if (asktemp3 >= 60) {
-                    asktemp3 = 0;
-                    asktemp2 += 1;
-
-                }
-                if (asktemp2 >= 60) {
-                    asktemp2 = 0;
-                    asktemp1 += 1;
-
-                }
-
-                amin = "" + asktemp2;
-                asec = "" + asktemp3;
-                ahour = "" + asktemp1;
-
-                // --------------------------------
-
-                if (asktemp3 < 10) {
-
-                    asec = "0" + asktemp3;
-
-                }
-
-                if (asktemp2 < 10) {
-
-                    amin = "0" + asktemp2;
-
-                }
-
-                if (asktemp1 < 10) {
-
-                    ahour = "0" + asktemp1;
-
-                }
-
-                // --------------------------------
-
-                save("asksec", asec);
-                save("askmin", amin);
-                save("askmin", ahour);
-
-                customHandlerask.postDelayed(this, 0);
-
-            }
-        }
-
-    };
-
-    private Runnable updateTimerThreadbbm = new Runnable() {
-
-        String bsec, bhour, bmin;
-
-        public void run() {
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (bbm = true) {
-
-                bbmtemp3++;
-
-                if (bbmtemp3 >= 60) {
-                    bbmtemp3 = 0;
-                    bbmtemp2 += 1;
-
-                }
-                if (bbmtemp2 >= 60) {
-                    bbmtemp2 = 0;
-                    bbmtemp1 += 1;
-
-                }
-
-                bmin = "" + bbmtemp2;
-                bsec = "" + bbmtemp3;
-                bhour = "" + bbmtemp1;
-
-                // --------------------------------
-
-                if (bbmtemp3 < 10) {
-
-                    bsec = "0" + bbmtemp3;
-
-                }
-
-                if (bbmtemp2 < 10) {
-
-                    bmin = "0" + bbmtemp2;
-
-                }
-
-                if (bbmtemp1 < 10) {
-
-                    bhour = "0" + bbmtemp1;
-
-                }
-
-                // --------------------------------
-
-                save("bbmsec", bsec);
-                save("bbmmin", bmin);
-                save("bbmhour", bhour);
-
-                customHandlerbbm.postDelayed(this, 0);
-
-            }
-        }
-
-    };
-
-    private Runnable updateTimerThreadkikm = new Runnable() {
-
-        String kksec, kkhour, kkmin;
-
-        public void run() {
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (kikm = true) {
-
-                kikm3++;
-
-                if (kikm3 >= 60) {
-                    kikm3 = 0;
-                    kikm2 += 1;
-
-                }
-                if (kikm2 >= 60) {
-                    kikm2 = 0;
-                    kikm1 += 1;
-
-                }
-
-                kkmin = "" + kikm2;
-                kksec = "" + kikm3;
-                kkhour = "" + kikm1;
-
-                // --------------------------------
-
-                if (kikm3 < 10) {
-
-                    kksec = "0" + kikm3;
-
-                }
-
-                if (kikm2 < 10) {
-
-                    kkmin = "0" + kikm2;
-
-                }
-
-                if (kikm1 < 10) {
-
-                    kkhour = "0" + kikm1;
-
-                }
-
-                // --------------------------------
-
-                save("kikmhour", kkhour);
-                save("kikmsec", kkmin);
-                save("kikmmin", kksec);
-
-                customHandlerkikm.postDelayed(this, 0);
-
-            }
-        }
-
-    };
-
-    private Runnable updateTimerThreadsnap = new Runnable() {
-
-        String ssec, shour, smin;
-
-        public void run() {
-
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            if (snapchatt = true) {
-
-                snap3++;
-
-                if (snap3 >= 60) {
-                    snap3 = 0;
-                    snap2 += 1;
-
-                }
-                if (snap2 >= 60) {
-                    snap2 = 0;
-                    snap1 += 1;
-                }
-
-                ssec = "" + snap2;
-                smin = "" + snap3;
-                shour = "" + snap1;
-
-                // --------------------------------
-
-                if (snap3 < 10) {
-
-                    ssec = "0" + snap3;
-
-                }
-
-                if (snap2 < 10) {
-
-                    smin = "0" + snap2;
-
-                }
-
-                if (snap1 < 10) {
-
-                    shour = "0" + snap1;
-
-                }
-
-                // --------------------------------
-
-                save("snapsec", ssec);
-                save("snapmin", smin);
-                save("snaphour", shour);
-
-                customHandlersnap.postDelayed(this, 0);
-
-            }
-        }
-
-    };
-
-};

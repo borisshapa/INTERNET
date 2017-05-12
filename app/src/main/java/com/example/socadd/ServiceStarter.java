@@ -24,29 +24,13 @@ public class ServiceStarter extends BroadcastReceiver {
 
         spf = PreferenceManager.getDefaultSharedPreferences(context);
 
-        //Gets the values from spf
+        //Принимает значения от spf
         String bootchk = spf.getString("boot", "true");
         String starti = spf.getString("start", "false");
 
         if (bootchk.equals("true") && starti.equals("true")) {
-
-
-            //Since we have 2 services
-            //We choose the suitable one here
-
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-
-                context.startService(new Intent(context, LollipopService.class));
-
-                Toast.makeText(context, "Socials Addict started", Toast.LENGTH_SHORT).show();
-
-            } else {
-
                 context.startService(new Intent(context, ServiceSocial.class));
-
-                Toast.makeText(context, "Socials Addict started",Toast.LENGTH_SHORT).show();
-
-            }
+                Toast.makeText(context, "... started",Toast.LENGTH_SHORT).show();
         }
 
     }

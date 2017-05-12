@@ -29,20 +29,6 @@ public class close extends BroadcastReceiver {
          *
          * */
 
-        if (currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP
-                || currentapiVersion >= android.os.Build.VERSION_CODES.LOLLIPOP_MR1) {
-
-            Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
-            context.sendBroadcast(it);
-            Intent service = new Intent();
-            service.setComponent(new ComponentName(context,
-                    LollipopService.class));
-            context.stopService(service);
-
-            save("close", "yes");
-
-        } else {
-
             Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             context.sendBroadcast(it);
             Intent service = new Intent();
@@ -51,7 +37,7 @@ public class close extends BroadcastReceiver {
 
             save("close", "yes");
 
-        }
+
 
     }
 
