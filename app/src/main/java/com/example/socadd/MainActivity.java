@@ -10,12 +10,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
-import android.view.Menu;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -27,24 +24,22 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity {
         //TODO разобраться почему когда мы выключаем сервис приложение умирает
 
-    TextView facebook1, twitter1,  instagram1, facebook2,
-            twitter2,  instagram2, facebook3, twitter3,
-            instagram3, state, totalhour, usage;
-
+    TextView facebookTextSec, twitterTextSec, instagramTextSec, facebookTextMin,
+            twitterTextMin,  instagramTextMin, facebookTextHour, twitterTextHour,
+            instagramTextHour, myStatementNow, totalhour, usingHour;
+    // TODO убрать чеки ибо twittercheck всегда true и вообще все check  в сервисе всегда тру
     String facebooksec, twittersec, instagramsec,
             facebookmin, twittermin,  instagrammin,
             facebookhour, twitterhour, instagramhour,
             starti, states, total, ser1, ser2, ser3, yy, bootchk, firstboot;
 
 
-    SharedPreferences spf;
+    SharedPreferences sharedPreferences;
     CompoundButton start;
     Double x, y, y1, usaget;
     int z;
 
-    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
-    android.support.v7.app.ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +47,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main2);
-        //TODO убрать это?
-        actionBar = getSupportActionBar();
-        actionBar.setBackgroundDrawable(new ColorDrawable(0xff01579b));
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayShowTitleEnabled(true);
-        //TODO вставить название
-        actionBar
-                .setTitle(Html
-                        .fromHtml("<font color='#ffffff'> <b> мой проект </b> </font>"));
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             start = (Switch) findViewById(R.id.start);
@@ -70,24 +56,24 @@ public class MainActivity extends ActionBarActivity {
 
         // Text views, many text views
         totalhour = (TextView) findViewById(R.id.total);
-        facebook1 = (TextView) findViewById(R.id.facebook1);
-        facebook2 = (TextView) findViewById(R.id.facebook2);
-        facebook3 = (TextView) findViewById(R.id.facebook3);
+        facebookTextSec = (TextView) findViewById(R.id.facebook1);
+        facebookTextMin = (TextView) findViewById(R.id.facebook2);
+        facebookTextHour = (TextView) findViewById(R.id.facebook3);
 
-        twitter1 = (TextView) findViewById(R.id.twitter1);
-        twitter2 = (TextView) findViewById(R.id.twitter2);
-        twitter3 = (TextView) findViewById(R.id.twitter3);
+        twitterTextSec = (TextView) findViewById(R.id.twitter1);
+        twitterTextMin = (TextView) findViewById(R.id.twitter2);
+        twitterTextHour = (TextView) findViewById(R.id.twitter3);
 
-        instagram1 = (TextView) findViewById(R.id.instagram1);
-        instagram2 = (TextView) findViewById(R.id.instagram2);
-        instagram3 = (TextView) findViewById(R.id.instagram3);
-
-
-        state = (TextView) findViewById(R.id.state);
-        usage = (TextView) findViewById(R.id.textView6);
+        instagramTextSec = (TextView) findViewById(R.id.instagram1);
+        instagramTextMin = (TextView) findViewById(R.id.instagram2);
+        instagramTextHour = (TextView) findViewById(R.id.instagram3);
 
 
-        load();
+        myStatementNow = (TextView) findViewById(R.id.state);
+        usingHour = (TextView) findViewById(R.id.textView6);
+
+
+        LoadPreferences();
 
 
         start.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -97,26 +83,26 @@ public class MainActivity extends ActionBarActivity {
 
                 if (arg1 == true) {
 
-                    save("start", "true");
+                    SavePreferences("start", "true");
 
 
 
                         startService(new Intent(MainActivity.this,
-                                ServiceSocial.class));
+                                MyService.class));
 
 
                     //TODO добавить название
                     Toast.makeText(getApplicationContext(),
-                            "мой проект started", Toast.LENGTH_SHORT)
+                            "InternetTime запущено", Toast.LENGTH_SHORT)
                             .show();
 
 
                 } else {
 
-                    save("start", "false");
+                    SavePreferences("start", "false");
 
                         stopService(new Intent(MainActivity.this,
-                                ServiceSocial.class));
+                                MyService.class));
                 }
 
             }
@@ -126,77 +112,73 @@ public class MainActivity extends ActionBarActivity {
 
     /*
      *
-     * Преобразует spf в tring
+     * Преобразует sharedPreferences в tring
      */
-    public void save(String key, String value) {
+    public void SavePreferences(String key, String value) {
 
-        spf = PreferenceManager.getDefaultSharedPreferences(this);
-        Editor edit = spf.edit();
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Editor edit = sharedPreferences.edit();
         edit.putString(key, value);
         edit.commit();
 
     }
 
-    public void load() {
+    public void LoadPreferences() {
 
-        spf = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        String fbcheck = sharedPreferences.getString("facebook", "true");
+        String twcheck = sharedPreferences.getString("twitter", "true");
+        String instacheck = sharedPreferences.getString("instagram", "true");
 
+        starti = sharedPreferences.getString("start", "false");
+        states = sharedPreferences.getString("myStatementNow", "low");
+        total = sharedPreferences.getString("total", "0");
+        bootchk = sharedPreferences.getString("boot", "true");
+        firstboot = sharedPreferences.getString("first", "true");
 
-
-        String fbcheck = spf.getString("facebook", "true");
-        String twcheck = spf.getString("twitter", "true");
-        String instacheck = spf.getString("instagram", "true");
-
-
-        starti = spf.getString("start", "false");
-        states = spf.getString("state", "low");
-        total = spf.getString("total", "0");
-        bootchk = spf.getString("boot", "true");
-        firstboot = spf.getString("first", "true");
-
-        ser1 = spf.getString("servicehour", "0");
-        ser2 = spf.getString("servicemin", "0");
-        ser3 = spf.getString("servicesec", "0");
+        ser1 = sharedPreferences.getString("servicehour", "0");
+        ser2 = sharedPreferences.getString("servicemin", "0");
+        ser3 = sharedPreferences.getString("servicesec", "0");
 
         if (firstboot.isEmpty() || firstboot.equals("true")) {
-            save("first", "false");
+            SavePreferences("first", "false");
         }
 
 
 
         if (ser1.isEmpty()) {
-            save("servicehour", "0");
+            SavePreferences("servicehour", "0");
         } else {
             z = Integer.parseInt(ser1);
         }
 
         if (ser2.isEmpty()) {
-            save("servicemin", "0");
+            SavePreferences("servicemin", "0");
         }
 
         if (ser3.isEmpty()) {
-            save("servicesec", "0");
+            SavePreferences("servicesec", "0");
         }
 
         if (fbcheck.isEmpty()) {
-            save("facebook", "true");
+            SavePreferences("facebook", "true");
         }
 
         if (twcheck.isEmpty()) {
-            save("twitter", "true");
+            SavePreferences("twitter", "true");
         }
 
         if (instacheck.isEmpty()) {
-            save("instagram", "true");
+            SavePreferences("instagram", "true");
         }
 
         if (bootchk.isEmpty()) {
-            save("boot", "true");
+            SavePreferences("boot", "true");
         }
 
         if (total.isEmpty()) {
-            save("total", "0 Hours");
+            SavePreferences("total", "0 Hours");
         } else {
             DecimalFormat df = new DecimalFormat("#.##");
 
@@ -214,126 +196,120 @@ public class MainActivity extends ActionBarActivity {
 
                 usaget = (x / y1);
 
-                usage.setText(df.format(usaget) + " Hour/Day");
+                usingHour.setText(df.format(usaget) + " Hour/Day");
 
             } else {
 
-                usage.setText("0 Hour/Day");
+                usingHour.setText("0 Hour/Day");
             }
 
         }
 
         if (states.isEmpty()) {
-            save("state", "low");
+            SavePreferences("myStatementNow", "low");
         }
 
-        states = spf.getString("state", "low");
+        states = sharedPreferences.getString("myStatementNow", "low");
 
         if (states.equals("low")) {
-            state.setText("Low");
-            state.setTextColor(Color.parseColor("#32CD32"));
+            myStatementNow.setText("Low");
+            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
 
         else if (states.equals("Average")) {
-            state.setText("Average");
-            state.setTextColor(Color.parseColor("#32CD32"));
+            myStatementNow.setText("Average");
+            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
         else if (states.equals("attention")) {
-            state.setText("ATTENTION");
-            state.setTextColor(Color.parseColor("#fcce1c"));
+            myStatementNow.setText("ATTENTION");
+            myStatementNow.setTextColor(Color.parseColor("#fcce1c"));
         }
         else if (states.equals("Addicted")) {
-            state.setText("Addcited");
-            state.setTextColor(Color.parseColor("#FF9933"));
+            myStatementNow.setText("Addcited");
+            myStatementNow.setTextColor(Color.parseColor("#FF9933"));
         }
         else if (states.equals("DANGER")) {
-            state.setText("Danger");
-            state.setTextColor(Color.parseColor("#CC0000"));
+            myStatementNow.setText("Danger");
+            myStatementNow.setTextColor(Color.parseColor("#CC0000"));
         } else {
-            state.setText("Low");
-            state.setTextColor(Color.parseColor("#32CD32"));
+            myStatementNow.setText("Low");
+            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
 
-        if (starti.equals("true") && isMyServiceRunning(ServiceSocial.class)
+        if (starti.equals("true") && isMyServiceRunning(MyService.class)
                 && starti.equals("true")) {
             start.setChecked(true);
         } else {
             start.setChecked(false);
         }
 
-        facebooksec = spf.getString("facebooksec", "00");
+        facebooksec = sharedPreferences.getString("facebooksec", "00");
         if (facebooksec.isEmpty()) {
-            save("facebooksec", "00");
+            SavePreferences("facebooksec", "00");
         } else {
-            facebook3.setText(facebooksec);
+            facebookTextHour.setText(facebooksec);
         }
 
-        facebookmin = spf.getString("facebookmin", "00");
+        facebookmin = sharedPreferences.getString("facebookmin", "00");
         if (facebookmin.isEmpty()) {
-            save("facebookmin", "00");
+            SavePreferences("facebookmin", "00");
         } else {
-            facebook2.setText(facebookmin);
+            facebookTextMin.setText(facebookmin);
         }
 
-        facebookhour = spf.getString("facebookhour", "00");
+        facebookhour = sharedPreferences.getString("facebookhour", "00");
         if (facebookhour.isEmpty()) {
-            save("facebookhour", "00");
+            SavePreferences("facebookhour", "00");
         } else {
-            facebook1.setText(facebookhour);
+            facebookTextSec.setText(facebookhour);
         }
 
-        twittersec = spf.getString("twittersec", "00");
+        twittersec = sharedPreferences.getString("twittersec", "00");
         if (twittersec.isEmpty()) {
-            save("twittersec", "00");
+            SavePreferences("twittersec", "00");
         } else {
-            twitter3.setText(twittersec);
+            twitterTextHour.setText(twittersec);
         }
 
-        twittermin = spf.getString("twittermin", "00");
+        twittermin = sharedPreferences.getString("twittermin", "00");
         if (twittermin.isEmpty()) {
-            save("twittermin", "00");
+            SavePreferences("twittermin", "00");
         } else {
-            twitter2.setText(twittermin);
+            twitterTextMin.setText(twittermin);
         }
 
-        twitterhour = spf.getString("twitterhour", "00");
+        twitterhour = sharedPreferences.getString("twitterhour", "00");
         if (twitterhour.isEmpty()) {
-            save("twitterhour", "00");
+            SavePreferences("twitterhour", "00");
         } else {
-            twitter1.setText(twitterhour);
+            twitterTextSec.setText(twitterhour);
         }
 
 
 
-        instagramsec = spf.getString("instagramsec", "00");
+        instagramsec = sharedPreferences.getString("instagramsec", "00");
         if (instagramsec.isEmpty()) {
-            save("instagramsec", "00");
+            SavePreferences("instagramsec", "00");
         } else {
-            instagram3.setText(instagramsec);
+            instagramTextHour.setText(instagramsec);
         }
 
-        instagrammin = spf.getString("instagrammin", "00");
+        instagrammin = sharedPreferences.getString("instagrammin", "00");
         if (instagrammin.isEmpty()) {
-            save("instagrammin", "00");
+            SavePreferences("instagrammin", "00");
         } else {
-            instagram2.setText(instagrammin);
+            instagramTextMin.setText(instagrammin);
         }
 
-        instagramhour = spf.getString("instagramhour", "00");
+        instagramhour = sharedPreferences.getString("instagramhour", "00");
         if (instagramhour.isEmpty()) {
-            save("instagramhour", "00");
+            SavePreferences("instagramhour", "00");
         } else {
-            instagram1.setText(instagramhour);
+            instagramTextSec.setText(instagramhour);
         }
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-    //TODO убрать это?
 
 
     // Проверяет запущен ли сервис чтобы изменить checkbox на случай убийства системой
@@ -351,7 +327,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        load();
+        LoadPreferences();
     }
 
     //TODO убрать это?

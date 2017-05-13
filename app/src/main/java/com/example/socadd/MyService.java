@@ -24,7 +24,7 @@ package com.example.socadd;
         import android.support.v4.app.TaskStackBuilder;
         import android.util.Log;
 
-public class ServiceSocial extends Service {
+public class MyService extends Service {
 
     /**
      * Этот сервис определяет зарущенное приложение
@@ -40,7 +40,7 @@ public class ServiceSocial extends Service {
 
     double total, totalsec, totalmin, totalall, totalall1, totalall2;
 
-    SharedPreferences spf;
+    SharedPreferences sharedPreferences;
 
     int f, t, tu, w, i, k, b, a, s, km;
 
@@ -67,39 +67,40 @@ public class ServiceSocial extends Service {
     }
 
     /**
-     * Этот метод загружает значения времени из spf.
+     * Этот метод загружает значения времени из sharedPreferences.
      * Значения хранятся в строках и преобразуются в integer потом используются в handler
      **/
 
     public void load() {
 
-        fbcheck = spf.getString("facebook", "true");
-        twcheck = spf.getString("twitter", "true");
-        instacheck = spf.getString("instagram", "true");
-        rich = spf.getString("rich", "false");
-        totals = spf.getString("total", "0.0");
+        fbcheck = sharedPreferences.getString("facebook", "true");
+        twcheck = sharedPreferences.getString("twitter", "true");
+        instacheck = sharedPreferences.getString("instagram", "true");
+        rich = sharedPreferences.getString("rich", "false");
+        totals = sharedPreferences.getString("total", "0.0");
 
-        ser1 = spf.getString("servicehour", "0");
-        ser2 = spf.getString("servicemin", "0");
-        ser3 = spf.getString("servicesec", "0");
+        ser1 = sharedPreferences.getString("servicehour", "0");
+        ser2 = sharedPreferences.getString("servicemin", "0");
+        ser3 = sharedPreferences.getString("servicesec", "0");
 
-        starti = spf.getString("start", "false");
+        starti = sharedPreferences.getString("start", "false");
 
-        fb1 = spf.getString("facebooksec", "0");
-        fb2 = spf.getString("facebookmin", "0");
-        fb3 = spf.getString("facebookhour", "0");
+        fb1 = sharedPreferences.getString("facebooksec", "0");
+        fb2 = sharedPreferences.getString("facebookmin", "0");
+        fb3 = sharedPreferences.getString("facebookhour", "0");
 
-        twittr1 = spf.getString("twittersec", "0");
-        twittr2 = spf.getString("twittermin", "0");
-        twittr3 = spf.getString("twitterhour", "0");
+        twittr1 = sharedPreferences.getString("twittersec", "0");
+        twittr2 = sharedPreferences.getString("twittermin", "0");
+        twittr3 = sharedPreferences.getString("twitterhour", "0");
 
-        insta1 = spf.getString("instagramsec", "0");
-        insta2 = spf.getString("instagrammin", "0");
-        insta3 = spf.getString("instagramhour", "0");
+        insta1 = sharedPreferences.getString("instagramsec", "0");
+        insta2 = sharedPreferences.getString("instagrammin", "0");
+        insta3 = sharedPreferences.getString("instagramhour", "0");
 
         facebooktemp1 = Integer.parseInt(fb3);
         facebooktemp2 = Integer.parseInt(fb2);
         facebooktemp3 = Integer.parseInt(fb1);
+
         twittertemp1 = Integer.parseInt(twittr3);
         twittertemp2 = Integer.parseInt(twittr2);
         twittertemp3 = Integer.parseInt(twittr1);
@@ -118,10 +119,10 @@ public class ServiceSocial extends Service {
     public void onCreate() {
 
 
-        spf = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        not = spf.getString("not", "false");
-        clear = spf.getString("clear", "false");
+        not = sharedPreferences.getString("not", "false");
+        clear = sharedPreferences.getString("clear", "false");
 
         if (not.isEmpty()) {
             save("not", "false");
@@ -142,7 +143,7 @@ public class ServiceSocial extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-        spf = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mainhandler = new Handler() {
 
@@ -154,7 +155,7 @@ public class ServiceSocial extends Service {
                 try {
 
                     if (clear.equals("true")) {
-
+                        //TODO запилиить очищение , которое не чекает время
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                         String strDate = sdf.format(c.getTime());
@@ -177,7 +178,7 @@ public class ServiceSocial extends Service {
                             save("servicemin", "00");
                             save("servicehour", "00");
 
-                            save("state", "low");
+                            save("myStatementNow", "low");
                             save("total", "0");
 
                         }
@@ -232,7 +233,7 @@ public class ServiceSocial extends Service {
 
                     if (addict < 0.1) {
 
-                        save("state", "low");
+                        save("myStatementNow", "low");
 
                         showNotification("State : Low");
 
@@ -240,7 +241,7 @@ public class ServiceSocial extends Service {
 
                         if (addict < 0.2 && addict > 0.1) {
 
-                            save("state", "Average");
+                            save("myStatementNow", "Average");
 
                             showNotification("State : Average");
 
@@ -248,7 +249,7 @@ public class ServiceSocial extends Service {
 
                             if (addict < 0.3 && addict > 0.2) {
 
-                                save("state", "attention");
+                                save("myStatementNow", "attention");
 
                                 showNotification("State : Attention");
 
@@ -256,15 +257,15 @@ public class ServiceSocial extends Service {
 
                                 if (addict < 0.5 && addict > 0.4) {
 
-                                    save("state", "Addicted");
+                                    save("myStatementNow", "Addicted");
 
                                     showNotification("State : Addicted");
 
                                 } else {
-
+                                    //TODO пофиксить баг для значения 0.55
                                     if (addict > 0.6) {
 
-                                        save("state", "DANGER");
+                                        save("myStatementNow", "DANGER");
 
                                         showNotification("State : DANGER");
 
@@ -285,7 +286,7 @@ public class ServiceSocial extends Service {
 
                 if (starti.equals("true")) {
 
-                    if (fbcheck.equals("true")) {
+                    //if (fbcheck.equals("true")) {
                         //TODO убрать calendar
                         if (packageName.equals("com.facebook.katana")
                                 || packageName.equals("com.android.calendar")
@@ -323,7 +324,8 @@ public class ServiceSocial extends Service {
                                 f = 2;
                             }
                         }
-                    } else {
+                    //TODO такое можно везде убрать и чеки убрать!
+                    /*}  else {
 
                         if (f == 1) {
 
@@ -334,7 +336,7 @@ public class ServiceSocial extends Service {
                             f = 2;
                         }
 
-                    }
+                    }*/
 
                     if (twcheck.equals("true")) {
                         if (packageName.equals("com.twitter.android")
@@ -443,7 +445,7 @@ public class ServiceSocial extends Service {
 
         load();
 
-        Intent deleteIntent = new Intent(this, close.class);
+        Intent deleteIntent = new Intent(this, InTheEnd.class);
         PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(this, 0,
                 deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -453,12 +455,12 @@ public class ServiceSocial extends Service {
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
                 this);
         //TODO вставить название
-        mBuilder.setContentTitle("мой проект");
+        mBuilder.setContentTitle("InternetTime");
 
 
         mBuilder.setSmallIcon(R.drawable.ic_launcher);
 
-
+        //TODO оставить только название и иконку
 
         mBuilder.setOngoing(true);
 
@@ -479,14 +481,14 @@ public class ServiceSocial extends Service {
     public void onDestroy() {
         super.onDestroy();
 
-        String close = spf.getString("close", "no");
+        String close = sharedPreferences.getString("InTheEnd", "no");
 
         if (start.equals("true") && close.equals("no")) {
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancelAll();
 
-            startService(new Intent(ServiceSocial.this, ServiceSocial.class));
+            startService(new Intent(MyService.this, MyService.class));
 
         } else if (start.equals("true") && close.equals("yes")) {
 
@@ -503,7 +505,7 @@ public class ServiceSocial extends Service {
     }
 
     public void save(String key, String value) {
-        Editor edit = spf.edit();
+        Editor edit = sharedPreferences.edit();
         edit.putString(key, value);
         edit.commit();
 
@@ -536,7 +538,7 @@ public class ServiceSocial extends Service {
                     facebooktemp1 += 1;
                 }
 
-                facemin = "" + facebooktemp1;
+                facemin = "" + facebooktemp2;
                 facesec = "" + facebooktemp3;
                 facehour = "" + facebooktemp1;
 
@@ -652,7 +654,7 @@ public class ServiceSocial extends Service {
 
                 imin = "" + instagramtemp2;
                 isec = "" + instagramtemp3;
-                ihour = "" + instagramtemp2;
+                ihour = "" + instagramtemp1;
 
 
                 if (instagramtemp3 < 10) {

@@ -38,21 +38,21 @@
         </activity>
 
         <service
-            android:name=".ServiceSocial"
+            android:name=".MyService"
             android:icon="@drawable/icon"
             android:label="Some name"
             android:launchMode="singleTask" >
         </service>
 
         <receiver
-            android:name=".ServiceStarter"
+            android:name=".StartMyService"
             android:enabled="true" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.QUICKBOOT_POWERON" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".close" />
+        <receiver android:name=".InTheEnd" />
     </application>
 
 </manifest>

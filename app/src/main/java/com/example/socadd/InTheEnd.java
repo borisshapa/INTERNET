@@ -11,34 +11,25 @@ package com.example.socadd;
         import android.content.SharedPreferences.Editor;
         import android.preference.PreferenceManager;
 
-public class close extends BroadcastReceiver {
-
-    int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+public class InTheEnd extends BroadcastReceiver {
 
     SharedPreferences spf;
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-
         spf = PreferenceManager.getDefaultSharedPreferences(context);
-
         /**
          *
-         * This is for the notification action close it closes the services
+         * This is for the notification action InTheEnd it closes the services
          *
          * */
-
             Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             context.sendBroadcast(it);
             Intent service = new Intent();
-            service.setComponent(new ComponentName(context, ServiceSocial.class));
+            service.setComponent(new ComponentName(context, MyService.class));
             context.stopService(service);
 
-            save("close", "yes");
-
-
-
+            save("InTheEnd", "yes");
     }
 
     public void save(String key, String value) {

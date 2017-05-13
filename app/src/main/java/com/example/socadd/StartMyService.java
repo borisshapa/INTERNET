@@ -15,7 +15,7 @@ import android.widget.Toast;
  *
  **/
 
-public class ServiceStarter extends BroadcastReceiver {
+public class StartMyService extends BroadcastReceiver {
 
     SharedPreferences spf;
 
@@ -24,13 +24,13 @@ public class ServiceStarter extends BroadcastReceiver {
 
         spf = PreferenceManager.getDefaultSharedPreferences(context);
 
-        //Принимает значения от spf
+        //Принимает значения от sharedPreferences
         String bootchk = spf.getString("boot", "true");
         String starti = spf.getString("start", "false");
 
         if (bootchk.equals("true") && starti.equals("true")) {
-                context.startService(new Intent(context, ServiceSocial.class));
-                Toast.makeText(context, "... started",Toast.LENGTH_SHORT).show();
+                context.startService(new Intent(context, MyService.class));
+                Toast.makeText(context, "InternerTime started",Toast.LENGTH_SHORT).show();
         }
 
     }
