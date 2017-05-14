@@ -24,14 +24,14 @@ import android.widget.Toast;
 public class MainActivity extends ActionBarActivity {
         //TODO разобраться почему когда мы выключаем сервис приложение умирает
 
-    TextView facebookTextSec, twitterTextSec, instagramTextSec, facebookTextMin,
-            twitterTextMin,  instagramTextMin, facebookTextHour, twitterTextHour,
-            instagramTextHour, myStatementNow, totalhour, usingHour;
+    TextView facebookTextHour, twitterTextHour, instagramTextHour, facebookTextMin,
+            twitterTextMin,  instagramTextMin, facebookTextSec, twitterTextSec,
+            instagramTextSec, myStatementNow, totalAllText, useForDay;
     // TODO убрать чеки ибо twittercheck всегда true и вообще все check  в сервисе всегда тру
-    String facebooksec, twittersec, instagramsec,
-            facebookmin, twittermin,  instagrammin,
-            facebookhour, twitterhour, instagramhour,
-            starti, states, total, ser1, ser2, ser3, yy, bootchk, firstboot;
+    String faceSeconds, twitSeconds, instaSeconds,
+            faceMinutes, twitMinutes, instaMinutes,
+            faceHours, twitHours, instaHours,
+            isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds, yy;
 
 
     SharedPreferences sharedPreferences;
@@ -55,22 +55,22 @@ public class MainActivity extends ActionBarActivity {
         }
 
         // Text views, many text views
-        totalhour = (TextView) findViewById(R.id.total);
-        facebookTextSec = (TextView) findViewById(R.id.facebook1);
+        totalAllText = (TextView) findViewById(R.id.total);
+        facebookTextHour = (TextView) findViewById(R.id.facebook1);
         facebookTextMin = (TextView) findViewById(R.id.facebook2);
-        facebookTextHour = (TextView) findViewById(R.id.facebook3);
+        facebookTextSec = (TextView) findViewById(R.id.facebook3);
 
-        twitterTextSec = (TextView) findViewById(R.id.twitter1);
+        twitterTextHour = (TextView) findViewById(R.id.twitter1);
         twitterTextMin = (TextView) findViewById(R.id.twitter2);
-        twitterTextHour = (TextView) findViewById(R.id.twitter3);
+        twitterTextSec = (TextView) findViewById(R.id.twitter3);
 
-        instagramTextSec = (TextView) findViewById(R.id.instagram1);
+        instagramTextHour = (TextView) findViewById(R.id.instagram1);
         instagramTextMin = (TextView) findViewById(R.id.instagram2);
-        instagramTextHour = (TextView) findViewById(R.id.instagram3);
+        instagramTextSec = (TextView) findViewById(R.id.instagram3);
 
 
         myStatementNow = (TextView) findViewById(R.id.state);
-        usingHour = (TextView) findViewById(R.id.textView6);
+        useForDay = (TextView) findViewById(R.id.textView6);
 
 
         LoadPreferences();
@@ -131,33 +131,26 @@ public class MainActivity extends ActionBarActivity {
         String twcheck = sharedPreferences.getString("twitter", "true");
         String instacheck = sharedPreferences.getString("instagram", "true");
 
-        starti = sharedPreferences.getString("start", "false");
-        states = sharedPreferences.getString("myStatementNow", "low");
-        total = sharedPreferences.getString("total", "0");
-        bootchk = sharedPreferences.getString("boot", "true");
-        firstboot = sharedPreferences.getString("first", "true");
-
-        ser1 = sharedPreferences.getString("servicehour", "0");
-        ser2 = sharedPreferences.getString("servicemin", "0");
-        ser3 = sharedPreferences.getString("servicesec", "0");
-
-        if (firstboot.isEmpty() || firstboot.equals("true")) {
-            SavePreferences("first", "false");
-        }
+        isStarted = sharedPreferences.getString("start", "false");
+        myCondition = sharedPreferences.getString("myStatementNow", "low");
+        allSocials = sharedPreferences.getString("allSocials", "0");
 
 
+        serviceHours = sharedPreferences.getString("servicehour", "0");
+        serviceMinutes = sharedPreferences.getString("servicemin", "0");
+        serviceSeconds = sharedPreferences.getString("servicesec", "0");
 
-        if (ser1.isEmpty()) {
+        if (serviceHours.isEmpty()) {
             SavePreferences("servicehour", "0");
         } else {
-            z = Integer.parseInt(ser1);
+            z = Integer.parseInt(serviceHours);
         }
 
-        if (ser2.isEmpty()) {
+        if (serviceMinutes.isEmpty()) {
             SavePreferences("servicemin", "0");
         }
 
-        if (ser3.isEmpty()) {
+        if (serviceSeconds.isEmpty()) {
             SavePreferences("servicesec", "0");
         }
 
@@ -173,18 +166,15 @@ public class MainActivity extends ActionBarActivity {
             SavePreferences("instagram", "true");
         }
 
-        if (bootchk.isEmpty()) {
-            SavePreferences("boot", "true");
-        }
 
-        if (total.isEmpty()) {
-            SavePreferences("total", "0 Hours");
+        if (allSocials.isEmpty()) {
+            SavePreferences("allSocials", "0 Hours");
         } else {
             DecimalFormat df = new DecimalFormat("#.##");
 
-            x = Double.parseDouble(total);
+            x = Double.parseDouble(allSocials);
 
-            totalhour.setText(df.format(x) + " Hours");
+            totalAllText.setText(df.format(x) + " Hours");
 
             if (z > 24) {
 
@@ -196,39 +186,39 @@ public class MainActivity extends ActionBarActivity {
 
                 usaget = (x / y1);
 
-                usingHour.setText(df.format(usaget) + " Hour/Day");
+                useForDay.setText(df.format(usaget) + " Hour/Day");
 
             } else {
 
-                usingHour.setText("0 Hour/Day");
+                useForDay.setText("0 Hour/Day");
             }
 
         }
 
-        if (states.isEmpty()) {
+        if (myCondition.isEmpty()) {
             SavePreferences("myStatementNow", "low");
         }
 
-        states = sharedPreferences.getString("myStatementNow", "low");
+        myCondition = sharedPreferences.getString("myStatementNow", "low");
 
-        if (states.equals("low")) {
+        if (myCondition.equals("low")) {
             myStatementNow.setText("Low");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
 
-        else if (states.equals("Average")) {
+        else if (myCondition.equals("Average")) {
             myStatementNow.setText("Average");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
-        else if (states.equals("attention")) {
+        else if (myCondition.equals("attention")) {
             myStatementNow.setText("ATTENTION");
             myStatementNow.setTextColor(Color.parseColor("#fcce1c"));
         }
-        else if (states.equals("Addicted")) {
+        else if (myCondition.equals("Addicted")) {
             myStatementNow.setText("Addcited");
             myStatementNow.setTextColor(Color.parseColor("#FF9933"));
         }
-        else if (states.equals("DANGER")) {
+        else if (myCondition.equals("DANGER")) {
             myStatementNow.setText("Danger");
             myStatementNow.setTextColor(Color.parseColor("#CC0000"));
         } else {
@@ -236,76 +226,76 @@ public class MainActivity extends ActionBarActivity {
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
 
-        if (starti.equals("true") && isMyServiceRunning(MyService.class)
-                && starti.equals("true")) {
+        if (isStarted.equals("true") && isMyServiceRunning(MyService.class)
+                && isStarted.equals("true")) {
             start.setChecked(true);
         } else {
             start.setChecked(false);
         }
 
-        facebooksec = sharedPreferences.getString("facebooksec", "00");
-        if (facebooksec.isEmpty()) {
-            SavePreferences("facebooksec", "00");
+        faceSeconds = sharedPreferences.getString("faceSeconds", "00");
+        if (faceSeconds.isEmpty()) {
+            SavePreferences("faceSeconds", "00");
         } else {
-            facebookTextHour.setText(facebooksec);
+            facebookTextSec.setText(faceSeconds);
         }
 
-        facebookmin = sharedPreferences.getString("facebookmin", "00");
-        if (facebookmin.isEmpty()) {
-            SavePreferences("facebookmin", "00");
+        faceMinutes = sharedPreferences.getString("faceMinutes", "00");
+        if (faceMinutes.isEmpty()) {
+            SavePreferences("faceMinutes", "00");
         } else {
-            facebookTextMin.setText(facebookmin);
+            facebookTextMin.setText(faceMinutes);
         }
 
-        facebookhour = sharedPreferences.getString("facebookhour", "00");
-        if (facebookhour.isEmpty()) {
-            SavePreferences("facebookhour", "00");
+        faceHours = sharedPreferences.getString("faceHours", "00");
+        if (faceHours.isEmpty()) {
+            SavePreferences("faceHours", "00");
         } else {
-            facebookTextSec.setText(facebookhour);
+            facebookTextHour.setText(faceHours);
         }
 
-        twittersec = sharedPreferences.getString("twittersec", "00");
-        if (twittersec.isEmpty()) {
-            SavePreferences("twittersec", "00");
+        twitSeconds = sharedPreferences.getString("twitSeconds", "00");
+        if (twitSeconds.isEmpty()) {
+            SavePreferences("twitSeconds", "00");
         } else {
-            twitterTextHour.setText(twittersec);
+            twitterTextSec.setText(twitSeconds);
         }
 
-        twittermin = sharedPreferences.getString("twittermin", "00");
-        if (twittermin.isEmpty()) {
-            SavePreferences("twittermin", "00");
+        twitMinutes = sharedPreferences.getString("twitMinutes", "00");
+        if (twitMinutes.isEmpty()) {
+            SavePreferences("twitMinutes", "00");
         } else {
-            twitterTextMin.setText(twittermin);
+            twitterTextMin.setText(twitMinutes);
         }
 
-        twitterhour = sharedPreferences.getString("twitterhour", "00");
-        if (twitterhour.isEmpty()) {
-            SavePreferences("twitterhour", "00");
+        twitHours = sharedPreferences.getString("twitHours", "00");
+        if (twitHours.isEmpty()) {
+            SavePreferences("twitHours", "00");
         } else {
-            twitterTextSec.setText(twitterhour);
+            twitterTextHour.setText(twitHours);
         }
 
 
 
-        instagramsec = sharedPreferences.getString("instagramsec", "00");
-        if (instagramsec.isEmpty()) {
-            SavePreferences("instagramsec", "00");
+        instaSeconds = sharedPreferences.getString("instaSeconds", "00");
+        if (instaSeconds.isEmpty()) {
+            SavePreferences("instaSeconds", "00");
         } else {
-            instagramTextHour.setText(instagramsec);
+            instagramTextSec.setText(instaSeconds);
         }
 
-        instagrammin = sharedPreferences.getString("instagrammin", "00");
-        if (instagrammin.isEmpty()) {
-            SavePreferences("instagrammin", "00");
+        instaMinutes = sharedPreferences.getString("instaMinutes", "00");
+        if (instaMinutes.isEmpty()) {
+            SavePreferences("instaMinutes", "00");
         } else {
-            instagramTextMin.setText(instagrammin);
+            instagramTextMin.setText(instaMinutes);
         }
 
-        instagramhour = sharedPreferences.getString("instagramhour", "00");
-        if (instagramhour.isEmpty()) {
-            SavePreferences("instagramhour", "00");
+        instaHours = sharedPreferences.getString("instaHours", "00");
+        if (instaHours.isEmpty()) {
+            SavePreferences("instaHours", "00");
         } else {
-            instagramTextSec.setText(instagramhour);
+            instagramTextHour.setText(instaHours);
         }
 
     }

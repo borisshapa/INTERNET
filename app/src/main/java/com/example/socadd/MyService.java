@@ -77,7 +77,7 @@ public class MyService extends Service {
         twcheck = sharedPreferences.getString("twitter", "true");
         instacheck = sharedPreferences.getString("instagram", "true");
         rich = sharedPreferences.getString("rich", "false");
-        totals = sharedPreferences.getString("total", "0.0");
+        totals = sharedPreferences.getString("allSocials", "0.0");
 
         ser1 = sharedPreferences.getString("servicehour", "0");
         ser2 = sharedPreferences.getString("servicemin", "0");
@@ -85,17 +85,17 @@ public class MyService extends Service {
 
         starti = sharedPreferences.getString("start", "false");
 
-        fb1 = sharedPreferences.getString("facebooksec", "0");
-        fb2 = sharedPreferences.getString("facebookmin", "0");
-        fb3 = sharedPreferences.getString("facebookhour", "0");
+        fb1 = sharedPreferences.getString("faceSeconds", "0");
+        fb2 = sharedPreferences.getString("faceMinutes", "0");
+        fb3 = sharedPreferences.getString("faceHours", "0");
 
-        twittr1 = sharedPreferences.getString("twittersec", "0");
-        twittr2 = sharedPreferences.getString("twittermin", "0");
-        twittr3 = sharedPreferences.getString("twitterhour", "0");
+        twittr1 = sharedPreferences.getString("twitSeconds", "0");
+        twittr2 = sharedPreferences.getString("twitMinutes", "0");
+        twittr3 = sharedPreferences.getString("twitHours", "0");
 
-        insta1 = sharedPreferences.getString("instagramsec", "0");
-        insta2 = sharedPreferences.getString("instagrammin", "0");
-        insta3 = sharedPreferences.getString("instagramhour", "0");
+        insta1 = sharedPreferences.getString("instaSeconds", "0");
+        insta2 = sharedPreferences.getString("instaMinutes", "0");
+        insta3 = sharedPreferences.getString("instaHours", "0");
 
         facebooktemp1 = Integer.parseInt(fb3);
         facebooktemp2 = Integer.parseInt(fb2);
@@ -162,24 +162,24 @@ public class MyService extends Service {
 
                         if (strDate.equals("00:00:00")) {
 
-                            save("facebooksec", "00");
-                            save("facebookmin", "00");
-                            save("facebookhour", "00");
+                            save("faceSeconds", "00");
+                            save("faceMinutes", "00");
+                            save("faceHours", "00");
 
-                            save("twittersec", "00");
-                            save("twittermin", "00");
-                            save("twitterhour", "00");
+                            save("twitSeconds", "00");
+                            save("twitMinutes", "00");
+                            save("twitHours", "00");
 
-                            save("instagramsec", "00");
-                            save("instagrammin", "00");
-                            save("instagramhour", "00");
+                            save("instaSeconds", "00");
+                            save("instaMinutes", "00");
+                            save("instaHours", "00");
 
                             save("servicesec", "00");
                             save("servicemin", "00");
                             save("servicehour", "00");
 
                             save("myStatementNow", "low");
-                            save("total", "0");
+                            save("allSocials", "0");
 
                         }
 
@@ -203,7 +203,7 @@ public class MyService extends Service {
                     total = (double) (facebooktemp1 + twittertemp1
                             + instagramtemp1 + totalall);
 
-                    save("total", String.valueOf(total));
+                    save("allSocials", String.valueOf(total));
 
                     servicetemp3++;
 
@@ -558,9 +558,9 @@ public class MyService extends Service {
 
 
 
-                save("facebooksec", facesec);
-                save("facebookmin", facemin);
-                save("facebookhour", facehour);
+                save("faceSeconds", facesec);
+                save("faceMinutes", facemin);
+                save("faceHours", facehour);
 
                 customHandlerfacebook.postDelayed(this, 0);
 
@@ -615,9 +615,9 @@ public class MyService extends Service {
 
 
 
-                save("twittersec", tsec);
-                save("twittermin", tmin);
-                save("twitterhour", thour);
+                save("twitSeconds", tsec);
+                save("twitMinutes", tmin);
+                save("twitHours", thour);
 
                 customHandlertwitter.postDelayed(this, 0);
 
@@ -669,9 +669,9 @@ public class MyService extends Service {
                     ihour = "0" + instagramtemp1;
                 }
 
-                save("instagramsec", isec);
-                save("instagrammin", imin);
-                save("instagramhour", ihour);
+                save("instaSeconds", isec);
+                save("instaMinutes", imin);
+                save("instaHours", ihour);
 
                 customHandlerinstagram.postDelayed(this, 0);
 
