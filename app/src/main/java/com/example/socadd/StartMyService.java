@@ -26,7 +26,7 @@ public class StartMyService extends BroadcastReceiver {
 
         //Принимает значения от sharedPreferences
         String bootchk = spf.getString("boot", "true");
-        String starti = spf.getString("start", "false");
+        String starti = spf.getString("compoundButton", "false");
 
         if (bootchk.equals("true") && starti.equals("true")) {
                 context.startService(new Intent(context, MyService.class));

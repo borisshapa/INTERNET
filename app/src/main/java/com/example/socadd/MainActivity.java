@@ -35,7 +35,8 @@ public class MainActivity extends ActionBarActivity {
 
 
     SharedPreferences sharedPreferences;
-    CompoundButton start;
+    CompoundButton compoundButton;
+
     Double x, y, y1, usaget;
     int z;
 
@@ -46,65 +47,46 @@ public class MainActivity extends ActionBarActivity {
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_main);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            start = (Switch) findViewById(R.id.start);
+            compoundButton = (Switch) findViewById(R.id.startButton);
         } else {
-            start = (CheckBox) findViewById(R.id.start);
+            compoundButton = (CheckBox) findViewById(R.id.startButton);
         }
 
         // Text views, many text views
         totalAllText = (TextView) findViewById(R.id.total);
+        myStatementNow = (TextView) findViewById(R.id.state);
+        useForDay = (TextView) findViewById(R.id.textView6);
+
         facebookTextHour = (TextView) findViewById(R.id.facebook1);
         facebookTextMin = (TextView) findViewById(R.id.facebook2);
         facebookTextSec = (TextView) findViewById(R.id.facebook3);
-
         twitterTextHour = (TextView) findViewById(R.id.twitter1);
         twitterTextMin = (TextView) findViewById(R.id.twitter2);
         twitterTextSec = (TextView) findViewById(R.id.twitter3);
-
         instagramTextHour = (TextView) findViewById(R.id.instagram1);
         instagramTextMin = (TextView) findViewById(R.id.instagram2);
         instagramTextSec = (TextView) findViewById(R.id.instagram3);
 
 
-        myStatementNow = (TextView) findViewById(R.id.state);
-        useForDay = (TextView) findViewById(R.id.textView6);
-
 
         LoadPreferences();
 
-
-        start.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+        compoundButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
             public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
 
                 if (arg1 == true) {
-
-                    SavePreferences("start", "true");
-
-
-
-                        startService(new Intent(MainActivity.this,
-                                MyService.class));
-
-
-                    //TODO добавить название
-                    Toast.makeText(getApplicationContext(),
-                            "InternetTime запущено", Toast.LENGTH_SHORT)
-                            .show();
-
-
+                    SavePreferences("compoundButton", "true");
+                    startService(new Intent(MainActivity.this,MyService.class));
+                    Toast.makeText(getApplicationContext(), "InternetTime запущено", Toast.LENGTH_SHORT).show();
                 } else {
-
-                    SavePreferences("start", "false");
-
-                        stopService(new Intent(MainActivity.this,
-                                MyService.class));
+                    SavePreferences("compoundButton", "false");
+                    stopService(new Intent(MainActivity.this,MyService.class));
                 }
-
             }
         });
 
@@ -131,7 +113,7 @@ public class MainActivity extends ActionBarActivity {
         String twcheck = sharedPreferences.getString("twitter", "true");
         String instacheck = sharedPreferences.getString("instagram", "true");
 
-        isStarted = sharedPreferences.getString("start", "false");
+        isStarted = sharedPreferences.getString("compoundButton", "false");
         myCondition = sharedPreferences.getString("myStatementNow", "low");
         allSocials = sharedPreferences.getString("allSocials", "0");
 
@@ -228,9 +210,9 @@ public class MainActivity extends ActionBarActivity {
 
         if (isStarted.equals("true") && isMyServiceRunning(MyService.class)
                 && isStarted.equals("true")) {
-            start.setChecked(true);
+            compoundButton.setChecked(true);
         } else {
-            start.setChecked(false);
+            compoundButton.setChecked(false);
         }
 
         faceSeconds = sharedPreferences.getString("faceSeconds", "00");

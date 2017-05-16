@@ -83,7 +83,7 @@ public class MyService extends Service {
         ser2 = sharedPreferences.getString("servicemin", "0");
         ser3 = sharedPreferences.getString("servicesec", "0");
 
-        starti = sharedPreferences.getString("start", "false");
+        starti = sharedPreferences.getString("compoundButton", "false");
 
         fb1 = sharedPreferences.getString("faceSeconds", "0");
         fb2 = sharedPreferences.getString("faceMinutes", "0");
