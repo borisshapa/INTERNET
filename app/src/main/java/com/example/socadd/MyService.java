@@ -285,8 +285,6 @@ public class MyService extends Service {
                 Log.d("MyLogs", packageName);
 
                 if (starti.equals("true")) {
-
-                    //if (fbcheck.equals("true")) {
                         //TODO убрать calendar
                         if (packageName.equals("com.facebook.katana")
                                 || packageName.equals("com.android.calendar")
@@ -324,21 +322,7 @@ public class MyService extends Service {
                                 f = 2;
                             }
                         }
-                    //TODO такое можно везде убрать и чеки убрать!
-                    /*}  else {
 
-                        if (f == 1) {
-
-                            facebook = false;
-
-                            customHandlerfacebook
-                                    .removeCallbacks(updateTimerThreadfacebook);
-                            f = 2;
-                        }
-
-                    }*/
-
-                    if (twcheck.equals("true")) {
                         if (packageName.equals("com.twitter.android")
                                 || packageName.equals("com.levelup.touiteur")
                                 || packageName
@@ -367,19 +351,6 @@ public class MyService extends Service {
                                 t = 2;
                             }
                         }
-                    } else {
-                        if (t == 1) {
-
-                            twitter = false;
-
-                            customHandlertwitter
-                                    .removeCallbacks(updateTimerThreadtwitter);
-                            t = 2;
-                        }
-                    }
-
-
-                    if (instacheck.equals("true")) {
                         if (packageName.equals("com.instagram.android")) {
 
                             if (i == 1) {
@@ -401,16 +372,7 @@ public class MyService extends Service {
                                 i = 2;
                             }
                         }
-                    } else {
-                        if (i == 1) {
 
-                            instagram = false;
-
-                            customHandlerinstagram
-                                    .removeCallbacks(updateTimerThreadinstagram);
-                            i = 2;
-                        }
-                    }
 
                 }
 
@@ -427,7 +389,6 @@ public class MyService extends Service {
                         mainhandler.sendEmptyMessage(0);
 
                     } catch (InterruptedException e) {
-
                         e.printStackTrace();
                     }
 

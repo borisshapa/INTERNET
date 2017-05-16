@@ -46,16 +46,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            compoundButton = (Switch) findViewById(R.id.startButton);
-        } else {
-            compoundButton = (CheckBox) findViewById(R.id.startButton);
-        }
-
-        // Text views, many text views
         totalAllText = (TextView) findViewById(R.id.total);
         myStatementNow = (TextView) findViewById(R.id.state);
         useForDay = (TextView) findViewById(R.id.textView6);
@@ -70,16 +62,20 @@ public class MainActivity extends ActionBarActivity {
         instagramTextMin = (TextView) findViewById(R.id.instagram2);
         instagramTextSec = (TextView) findViewById(R.id.instagram3);
 
-
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            compoundButton = (Switch) findViewById(R.id.startButton);
+        } else {
+            compoundButton = (CheckBox) findViewById(R.id.startButton);
+        }
 
         LoadPreferences();
 
         compoundButton.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
-            public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+            public void onCheckedChanged(CompoundButton myButton, boolean isSwitched) {
 
-                if (arg1 == true) {
+                if (isSwitched == true) {
                     SavePreferences("compoundButton", "true");
                     startService(new Intent(MainActivity.this,MyService.class));
                     Toast.makeText(getApplicationContext(), "InternetTime запущено", Toast.LENGTH_SHORT).show();
@@ -93,30 +89,23 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /*
-     *
      * Преобразует sharedPreferences в tring
      */
-    public void SavePreferences(String key, String value) {
 
+    public void SavePreferences(String stringName, String stringValue) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Editor edit = sharedPreferences.edit();
-        edit.putString(key, value);
+        edit.putString(stringName, stringValue);
         edit.commit();
-
     }
 
     public void LoadPreferences() {
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        String fbcheck = sharedPreferences.getString("facebook", "true");
-        String twcheck = sharedPreferences.getString("twitter", "true");
-        String instacheck = sharedPreferences.getString("instagram", "true");
-
         isStarted = sharedPreferences.getString("compoundButton", "false");
         myCondition = sharedPreferences.getString("myStatementNow", "low");
         allSocials = sharedPreferences.getString("allSocials", "0");
-
 
         serviceHours = sharedPreferences.getString("servicehour", "0");
         serviceMinutes = sharedPreferences.getString("servicemin", "0");
@@ -136,17 +125,7 @@ public class MainActivity extends ActionBarActivity {
             SavePreferences("servicesec", "0");
         }
 
-        if (fbcheck.isEmpty()) {
-            SavePreferences("facebook", "true");
-        }
 
-        if (twcheck.isEmpty()) {
-            SavePreferences("twitter", "true");
-        }
-
-        if (instacheck.isEmpty()) {
-            SavePreferences("instagram", "true");
-        }
 
 
         if (allSocials.isEmpty()) {
