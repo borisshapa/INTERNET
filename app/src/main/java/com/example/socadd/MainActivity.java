@@ -171,69 +171,17 @@ public class MainActivity extends ActionBarActivity {
             compoundButton.setChecked(false);
         }
 
-        faceSeconds = sharedPreferences.getString("faceSeconds", "00");
-        if (faceSeconds.isEmpty()) {
-            SavePreferences("faceSeconds", "00");
-        } else {
-            facebookTextSec.setText(faceSeconds);
-        }
+        isEmpty(faceSeconds,facebookTextSec,"faceSeconds");
+        isEmpty(faceMinutes,facebookTextMin,"faceMinutes");
+        isEmpty(faceHours,facebookTextHour,"faceHour");
 
-        faceMinutes = sharedPreferences.getString("faceMinutes", "00");
-        if (faceMinutes.isEmpty()) {
-            SavePreferences("faceMinutes", "00");
-        } else {
-            facebookTextMin.setText(faceMinutes);
-        }
+        isEmpty(twitSeconds,twitterTextSec,"twitSeconds");
+        isEmpty(twitMinutes,twitterTextMin,"twitMinutes");
+        isEmpty(twitHours,twitterTextHour,"twitHour");
 
-        faceHours = sharedPreferences.getString("faceHours", "00");
-        if (faceHours.isEmpty()) {
-            SavePreferences("faceHours", "00");
-        } else {
-            facebookTextHour.setText(faceHours);
-        }
-
-        twitSeconds = sharedPreferences.getString("twitSeconds", "00");
-        if (twitSeconds.isEmpty()) {
-            SavePreferences("twitSeconds", "00");
-        } else {
-            twitterTextSec.setText(twitSeconds);
-        }
-
-        twitMinutes = sharedPreferences.getString("twitMinutes", "00");
-        if (twitMinutes.isEmpty()) {
-            SavePreferences("twitMinutes", "00");
-        } else {
-            twitterTextMin.setText(twitMinutes);
-        }
-
-        twitHours = sharedPreferences.getString("twitHours", "00");
-        if (twitHours.isEmpty()) {
-            SavePreferences("twitHours", "00");
-        } else {
-            twitterTextHour.setText(twitHours);
-        }
-
-
-        instaSeconds = sharedPreferences.getString("instaSeconds", "00");
-        if (instaSeconds.isEmpty()) {
-            SavePreferences("instaSeconds", "00");
-        } else {
-            instagramTextSec.setText(instaSeconds);
-        }
-
-        instaMinutes = sharedPreferences.getString("instaMinutes", "00");
-        if (instaMinutes.isEmpty()) {
-            SavePreferences("instaMinutes", "00");
-        } else {
-            instagramTextMin.setText(instaMinutes);
-        }
-
-        instaHours = sharedPreferences.getString("instaHours", "00");
-        if (instaHours.isEmpty()) {
-            SavePreferences("instaHours", "00");
-        } else {
-            instagramTextHour.setText(instaHours);
-        }
+        isEmpty(instaSeconds,instagramTextSec,"instaSeconds");
+        isEmpty(instaMinutes,instagramTextMin,"instaMinutes");
+        isEmpty(instaHours,instagramTextHour,"instaHour");
 
     }
 
