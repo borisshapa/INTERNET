@@ -22,24 +22,23 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity {
-        //TODO разобраться почему когда мы выключаем сервис приложение умирает
+    //TODO разобраться почему когда мы выключаем сервис приложение умирает
 
     TextView facebookTextHour, twitterTextHour, instagramTextHour, facebookTextMin,
-            twitterTextMin,  instagramTextMin, facebookTextSec, twitterTextSec,
+            twitterTextMin, instagramTextMin, facebookTextSec, twitterTextSec,
             instagramTextSec, myStatementNow, totalAllText, useForDay;
     // TODO убрать чеки ибо twittercheck всегда true и вообще все check  в сервисе всегда тру
     String faceSeconds, twitSeconds, instaSeconds,
             faceMinutes, twitMinutes, instaMinutes,
             faceHours, twitHours, instaHours,
-            isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds, yy;
+            isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds, double2;
 
 
     SharedPreferences sharedPreferences;
     CompoundButton compoundButton;
 
-    Double x, y, y1, usaget;
-    int z;
-
+    Double serviceTimeinDouble, double1, double3, usaget;
+    int inService;
 
 
     @Override
@@ -77,11 +76,11 @@ public class MainActivity extends ActionBarActivity {
 
                 if (isSwitched == true) {
                     SavePreferences("compoundButton", "true");
-                    startService(new Intent(MainActivity.this,MyService.class));
+                    startService(new Intent(MainActivity.this, MyService.class));
                     Toast.makeText(getApplicationContext(), "InternetTime запущено", Toast.LENGTH_SHORT).show();
                 } else {
                     SavePreferences("compoundButton", "false");
-                    stopService(new Intent(MainActivity.this,MyService.class));
+                    stopService(new Intent(MainActivity.this, MyService.class));
                 }
             }
         });
@@ -114,7 +113,7 @@ public class MainActivity extends ActionBarActivity {
         if (serviceHours.isEmpty()) {
             SavePreferences("servicehour", "0");
         } else {
-            z = Integer.parseInt(serviceHours);
+            inService = Integer.parseInt(serviceHours);
         }
 
         if (serviceMinutes.isEmpty()) {
@@ -126,67 +125,45 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-
-
         if (allSocials.isEmpty()) {
             SavePreferences("allSocials", "0 Hours");
         } else {
-            DecimalFormat df = new DecimalFormat("#.##");
+            DecimalFormat doubleHelper = new DecimalFormat("#.##");
+            totalAllText.setText(doubleHelper.format(Double.parseDouble(allSocials)) + "Часов");
 
-            x = Double.parseDouble(allSocials);
-
-            totalAllText.setText(df.format(x) + " Hours");
-
-            if (z > 24) {
-
-                y = ((double) z / 24.0);
-
-                yy = df.format(y);
-
-                y1 = Double.parseDouble(yy);
-
-                usaget = (x / y1);
-
-                useForDay.setText(df.format(usaget) + " Hour/Day");
-
+            if (inService > 24) {
+                useForDay.setText(doubleHelper.format((serviceTimeinDouble / Double.parseDouble(doubleHelper.format((double) inService / 24.0))))
+                        + "Часов/День");
             } else {
-
-                useForDay.setText("0 Hour/Day");
+                useForDay.setText("Обслуживание начнется после 24ч");
             }
-
         }
 
         if (myCondition.isEmpty()) {
             SavePreferences("myStatementNow", "low");
         }
-
         myCondition = sharedPreferences.getString("myStatementNow", "low");
-
+        //TODO Боря вот это все удалить и переделать!
         if (myCondition.equals("low")) {
             myStatementNow.setText("Low");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
-        }
-
-        else if (myCondition.equals("Average")) {
+        } else if (myCondition.equals("Average")) {
             myStatementNow.setText("Average");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
-        }
-        else if (myCondition.equals("attention")) {
+        } else if (myCondition.equals("attention")) {
             myStatementNow.setText("ATTENTION");
             myStatementNow.setTextColor(Color.parseColor("#fcce1c"));
-        }
-        else if (myCondition.equals("Addicted")) {
+        } else if (myCondition.equals("Addicted")) {
             myStatementNow.setText("Addcited");
             myStatementNow.setTextColor(Color.parseColor("#FF9933"));
-        }
-        else if (myCondition.equals("DANGER")) {
+        } else if (myCondition.equals("DANGER")) {
             myStatementNow.setText("Danger");
             myStatementNow.setTextColor(Color.parseColor("#CC0000"));
         } else {
             myStatementNow.setText("Low");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
-
+        //TODO Я имею ввиду только до сюда)
         if (isStarted.equals("true") && isMyServiceRunning(MyService.class)
                 && isStarted.equals("true")) {
             compoundButton.setChecked(true);
@@ -237,7 +214,6 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-
         instaSeconds = sharedPreferences.getString("instaSeconds", "00");
         if (instaSeconds.isEmpty()) {
             SavePreferences("instaSeconds", "00");
@@ -261,7 +237,16 @@ public class MainActivity extends ActionBarActivity {
 
     }
 
-
+    private void isEmpty(String shared, TextView text, String name)
+    {
+        shared=sharedPreferences.getString(name, "00");
+        if(shared.isEmpty()){
+            SavePreferences(name,"00");
+        }
+        else{
+            text.setText(shared);
+        }
+    }
 
     // Проверяет запущен ли сервис чтобы изменить checkbox на случай убийства системой
     private boolean isMyServiceRunning(Class<?> serviceClass) {
