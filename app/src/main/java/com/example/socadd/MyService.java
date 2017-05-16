@@ -37,26 +37,18 @@ public class MyService extends Service {
 
     Boolean facebookB, twitterB, instagramB;
 
-    double total, inSocialSec, inSocialMin, totalall, totalall1, totalall2;
-
     SharedPreferences sharedPreferences;
 
     int isFirstFacebook, isFirstTwitter, isFirstInstagram;
 
-    int x = 60;
+    double condition;
 
-    int y = 3600;
+    public static int faceDHours, faceDMinutes, faceDSeconds,
+                      twitDHours, twitDMinutes, twitDSeconds,
+                      instDHours, instDMinutes, instDSeconds,
+                      serviceDHours, serviceDMinutes, serviceDSeconds;
 
-    double addict;
-
-    public static int facebooktemp1, faceDMinutes, faceDSeconds, twittertemp1,
-            twitDMinutes, twitDSeconds, instagramtemp1, instDMinutes,
-            instDSeconds, serviceDHours, serviceDMinutes, serviceDSeconds;
-
-    public static String isStarted, fb1, fb2, fb3,
-            twittr1, twittr2, twittr3,
-            insta1, insta2, insta3, ser1, ser2, ser3, startedApp,
-            not, reBoot, rich,totals, start;
+    public static String isStarted, startedApp, reBoot;
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -64,49 +56,25 @@ public class MyService extends Service {
         return null;
     }
 
-    /**
-     * Этот метод загружает значения времени из sharedPreferences.
-     * Значения хранятся в строках и преобразуются в integer потом используются в handler
-     **/
-
     public void load() {
-
-        rich = sharedPreferences.getString("rich", "false");
-        totals = sharedPreferences.getString("allSocials", "0.0");
-
-        ser1 = sharedPreferences.getString("servicehour", "0");
-        ser2 = sharedPreferences.getString("servicemin", "0");
-        ser3 = sharedPreferences.getString("servicesec", "0");
 
         isStarted = sharedPreferences.getString("compoundButton", "false");
 
-        fb1 = sharedPreferences.getString("faceSeconds", "0");
-        fb2 = sharedPreferences.getString("faceMinutes", "0");
-        fb3 = sharedPreferences.getString("faceHours", "0");
+        faceDHours = Integer.parseInt(sharedPreferences.getString("faceHours", "0"));
+        faceDMinutes = Integer.parseInt(sharedPreferences.getString("faceMinutes", "0"));
+        faceDSeconds = Integer.parseInt(sharedPreferences.getString("faceSeconds", "0"));
 
-        twittr1 = sharedPreferences.getString("twitSeconds", "0");
-        twittr2 = sharedPreferences.getString("twitMinutes", "0");
-        twittr3 = sharedPreferences.getString("twitHours", "0");
+        twitDHours = Integer.parseInt(sharedPreferences.getString("twitHours", "0"));
+        twitDMinutes = Integer.parseInt(sharedPreferences.getString("twitMinutes", "0"));
+        twitDSeconds = Integer.parseInt(sharedPreferences.getString("twitSeconds", "0"));
 
-        insta1 = sharedPreferences.getString("instaSeconds", "0");
-        insta2 = sharedPreferences.getString("instaMinutes", "0");
-        insta3 = sharedPreferences.getString("instaHours", "0");
+        instDHours = Integer.parseInt(sharedPreferences.getString("instaHours", "0"));
+        instDMinutes = Integer.parseInt(sharedPreferences.getString("instaMinutes", "0"));
+        instDSeconds = Integer.parseInt(sharedPreferences.getString("instaSeconds", "0"));
 
-        facebooktemp1 = Integer.parseInt(fb3);
-        faceDMinutes = Integer.parseInt(fb2);
-        faceDSeconds = Integer.parseInt(fb1);
-
-        twittertemp1 = Integer.parseInt(twittr3);
-        twitDMinutes = Integer.parseInt(twittr2);
-        twitDSeconds = Integer.parseInt(twittr1);
-
-        instagramtemp1 = Integer.parseInt(insta3);
-        instDMinutes = Integer.parseInt(insta2);
-        instDSeconds = Integer.parseInt(insta1);
-
-        serviceDSeconds = Integer.parseInt(ser3);
-        serviceDMinutes = Integer.parseInt(ser2);
-        serviceDHours = Integer.parseInt(ser1);
+        serviceDSeconds = Integer.parseInt(sharedPreferences.getString("servicesec", "0"));
+        serviceDMinutes = Integer.parseInt(sharedPreferences.getString("servicemin", "0"));
+        serviceDHours = Integer.parseInt(sharedPreferences.getString("servicehour", "0"));
 
     }
 
@@ -162,7 +130,7 @@ public class MyService extends Service {
 
                     }
                     load();
-                    SavePreferences("allSocials", String.valueOf((facebooktemp1 + twittertemp1 + instagramtemp1 +
+                    SavePreferences("allSocials", String.valueOf((faceDHours + twitDHours + instDHours +
                              ( (double) (faceDMinutes + twitDMinutes + instDMinutes) / 60) +
                                      ( (double) (faceDSeconds + twitDSeconds + instDSeconds) / 3600))));
                     serviceDSeconds++;
@@ -182,7 +150,7 @@ public class MyService extends Service {
                     SavePreferences("servicesec", String.valueOf(serviceDSeconds));
                     SavePreferences("servicemin", String.valueOf(serviceDMinutes));
                     SavePreferences("servicehour", String.valueOf(serviceDHours));
-                    addict = ( (facebooktemp1 + twittertemp1 + instagramtemp1 +
+                    condition = ( (faceDHours + twitDHours + instDHours +
                             ( (double) (faceDMinutes + twitDMinutes + instDMinutes) / 60) +
                             ( (double) (faceDSeconds + twitDSeconds + instDSeconds) / 3600)) / (double) serviceDHours);
 
@@ -192,7 +160,7 @@ public class MyService extends Service {
                 //TODO возможно переделать систему определения твоего состояния / зависимости
                 if (serviceDHours > 4) {
 
-                    if (addict < 0.1) {
+                    if (condition < 0.1) {
 
                         SavePreferences("myStatementNow", "low");
 
@@ -200,7 +168,7 @@ public class MyService extends Service {
 
                     } else {
 
-                        if (addict < 0.2 && addict > 0.1) {
+                        if (condition < 0.2 && condition > 0.1) {
 
                             SavePreferences("myStatementNow", "Average");
 
@@ -208,7 +176,7 @@ public class MyService extends Service {
 
                         } else {
 
-                            if (addict < 0.3 && addict > 0.2) {
+                            if (condition < 0.3 && condition > 0.2) {
 
                                 SavePreferences("myStatementNow", "attention");
 
@@ -216,7 +184,7 @@ public class MyService extends Service {
 
                             } else {
 
-                                if (addict < 0.5 && addict > 0.4) {
+                                if (condition < 0.5 && condition > 0.4) {
 
                                     SavePreferences("myStatementNow", "Addicted");
 
@@ -224,7 +192,7 @@ public class MyService extends Service {
 
                                 } else {
                                     //TODO пофиксить баг для значения 0.55
-                                    if (addict > 0.6) {
+                                    if (condition > 0.6) {
 
                                         SavePreferences("myStatementNow", "DANGER");
 
@@ -246,48 +214,42 @@ public class MyService extends Service {
                         //TODO убрать calendar
                         //TODO проверить такой ли packageName у всех нужных приложений
                         if (startedApp.equals("com.facebook.katana") || startedApp.equals("com.android.calendar")) {
-                            if (isFirstFacebook == 1) {
-                            } else {
+                            if (isFirstFacebook == 0) {
                                 isFirstFacebook = 1;
                                 facebookB = true;
-                                faceControl.postDelayed(updateTimerThreadfacebook, 0);
+                                faceControl.postDelayed(timerFacebook, 0);
                             }
-
                         } else {
                             if (isFirstFacebook == 1) {
                                 facebookB = false;
-                                faceControl.removeCallbacks(updateTimerThreadfacebook);
+                                faceControl.removeCallbacks(timerFacebook);
                                 isFirstFacebook = 0;
                             }
                         }
 
                         if (startedApp.equals("com.twitter.android")) {
-                            if (isFirstTwitter == 1) {
-
-                            } else {
+                            if (isFirstTwitter == 0) {
                                 isFirstTwitter = 1;
                                 twitterB = true;
-                                twitControl.postDelayed(updateTimerThreadtwitter, 0);
+                                twitControl.postDelayed(timerTwitter, 0);
                             }
                         } else {
                             if (isFirstTwitter == 1) {
                                 twitterB = false;
-                                twitControl.removeCallbacks(updateTimerThreadtwitter);
+                                twitControl.removeCallbacks(timerTwitter);
                                 isFirstTwitter = 0;
                             }
                         }
                         if (startedApp.equals("com.instagram.android")) {
-
-                            if (isFirstInstagram == 1) {
-                            } else {
+                            if (isFirstInstagram == 0) {
                                 isFirstInstagram = 1;
                                 instagramB = true;
-                                instControl.postDelayed(updateTimerThreadinstagram, 0);
+                                instControl.postDelayed(timerInstagram, 0);
                             }
                         } else {
                             if (isFirstInstagram == 1) {
                                 instagramB = false;
-                                instControl.removeCallbacks(updateTimerThreadinstagram);
+                                instControl.removeCallbacks(timerInstagram);
                                 isFirstInstagram = 0;
                             }
                         }
@@ -301,10 +263,8 @@ public class MyService extends Service {
             public void run() {
                 while (true) {
                     try {
-
                         Thread.sleep(1000);
                         serviceControler.sendEmptyMessage(0);
-
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -317,27 +277,6 @@ public class MyService extends Service {
         return START_STICKY;
     }
 
-    public void isRunning(String name,int is,boolean b,Handler handler,Runnable runnable)
-    {
-        if(startedApp.equals(name))
-        {
-            if(is==0)
-            {
-                is=1;
-                b=true;
-                handler.postDelayed(runnable,0);
-            }
-        }
-        else
-        {
-            if(is==1)
-            {
-                is=0;
-                b=false;
-                handler.removeCallbacks(runnable);
-            }
-        }
-    }
     @SuppressLint("InlinedApi")
     private void showNotification(String m) {
 
@@ -381,14 +320,14 @@ public class MyService extends Service {
 
         String close = sharedPreferences.getString("InTheEnd", "no");
 
-        if (start.equals("true") && close.equals("no")) {
+        if (isStarted.equals("true") && close.equals("no")) {
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancelAll();
 
             startService(new Intent(MyService.this, MyService.class));
 
-        } else if (start.equals("true") && close.equals("yes")) {
+        } else if (isStarted.equals("true") && close.equals("yes")) {
 
             NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.cancelAll();
@@ -409,9 +348,7 @@ public class MyService extends Service {
 
     }
 
-    private Runnable updateTimerThreadfacebook = new Runnable() {
-
-        String facesec, facemin, facehour;
+    private Runnable timerFacebook = new Runnable() {
 
         public void run() {
 
@@ -424,42 +361,7 @@ public class MyService extends Service {
 
             if (facebookB = true) {
 
-                faceDSeconds++;
-
-                if (faceDSeconds >= 60) {
-                    faceDSeconds = 0;
-                    faceDMinutes += 1;
-
-                }
-                if (faceDMinutes >= 60) {
-                    faceDMinutes = 0;
-                    facebooktemp1 += 1;
-                }
-
-                facemin = "" + faceDMinutes;
-                facesec = "" + faceDSeconds;
-                facehour = "" + facebooktemp1;
-
-                // --------------------------------
-
-                if (faceDSeconds < 10) {
-                    facesec = "0" + faceDSeconds;
-                }
-
-                if (faceDMinutes < 10) {
-                    facemin = "0" + faceDMinutes;
-                }
-
-                if (facebooktemp1 < 10) {
-                    facehour = "0" + facebooktemp1;
-                }
-
-
-
-                SavePreferences("faceSeconds", facesec);
-                SavePreferences("faceMinutes", facemin);
-                SavePreferences("faceHours", facehour);
-
+                setChangeTime(faceDSeconds,faceDMinutes,faceDHours,"faceSeconds","faceMinutes","faceHours");
                 faceControl.postDelayed(this, 0);
 
             }
@@ -467,9 +369,7 @@ public class MyService extends Service {
 
     };
 
-    private Runnable updateTimerThreadtwitter = new Runnable() {
-
-        String tsec, tmin, thour;
+    private Runnable timerTwitter = new Runnable() {
 
         public void run() {
 
@@ -481,42 +381,7 @@ public class MyService extends Service {
 
             if (twitterB = true) {
 
-                twitDSeconds++;
-
-                if (twitDSeconds >= 60) {
-                    twitDSeconds = 0;
-                    twitDMinutes += 1;
-                }
-
-                if (twitDMinutes >= 60) {
-                    twitDMinutes = 0;
-                    twittertemp1 += 1;
-                }
-
-                tmin = "" + twitDMinutes;
-                tsec = "" + twitDSeconds;
-                thour = "" + twittertemp1;
-
-
-
-                if (twitDSeconds < 10) {
-                    tsec = "0" + twitDSeconds;
-                }
-
-                if (twitDMinutes < 10) {
-                    tmin = "0" + twitDMinutes;
-                }
-
-                if (twittertemp1 < 10) {
-                    thour = "0" + twittertemp1;
-                }
-
-
-
-                SavePreferences("twitSeconds", tsec);
-                SavePreferences("twitMinutes", tmin);
-                SavePreferences("twitHours", thour);
-
+                setChangeTime(twitDSeconds,twitDMinutes,twitDHours,"instaSeconds","instaMinutes","instaHours");
                 twitControl.postDelayed(this, 0);
 
             }
@@ -525,10 +390,7 @@ public class MyService extends Service {
     };
 
 
-    private Runnable updateTimerThreadinstagram = new Runnable() {
-
-        String isec, ihour, imin;
-
+    private Runnable timerInstagram = new Runnable() {
         public void run() {
 
             try {
@@ -538,44 +400,46 @@ public class MyService extends Service {
             }
 
             if (instagramB = true) {
-
-                instDSeconds++;
-
-                if (instDSeconds >= 60) {
-                    instDSeconds = 0;
-                    instDMinutes += 1;
-                }
-                if (instDMinutes >= 60) {
-                    instDMinutes = 0;
-                    instagramtemp1 += 1;
-                }
-
-                imin = "" + instDMinutes;
-                isec = "" + instDSeconds;
-                ihour = "" + instagramtemp1;
-
-
-                if (instDSeconds < 10) {
-                    isec = "0" + instDSeconds;
-                }
-
-                if (instDMinutes < 10) {
-                    imin = "0" + instDMinutes;
-                }
-
-                if (instagramtemp1 < 10) {
-                    ihour = "0" + instagramtemp1;
-                }
-
-                SavePreferences("instaSeconds", isec);
-                SavePreferences("instaMinutes", imin);
-                SavePreferences("instaHours", ihour);
-
+                setChangeTime(instDSeconds,instDMinutes,instDHours,"instaSeconds","instaMinutes","instaHours");
                 instControl.postDelayed(this, 0);
 
             }
         }
 
     };
+
+    private  void setChangeTime(int sec,int min,int hou,String nameS,String nameM,String nameH){
+        sec++;
+        if(sec>=60){
+            sec=0;
+            min++;
+        }
+        if(min>=60){
+            min=0;
+            hou++;
+        }
+        if (sec < 10) {
+            SavePreferences(nameS, "0"+sec);
+        }
+
+        if (min < 10) {
+            SavePreferences(nameM, "0"+min);
+        }
+
+        if (hou < 10) {
+            SavePreferences(nameH, "0"+hou);
+        }
+        if(sec>=10)
+        {
+            SavePreferences(nameS, ""+sec);
+        }
+        if (min >= 10) {
+            SavePreferences(nameM, ""+min);
+        }
+
+        if (hou >= 10) {
+            SavePreferences(nameH, ""+hou);
+        }
+    }
 }
 
