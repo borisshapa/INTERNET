@@ -31,13 +31,13 @@ public class MainActivity extends ActionBarActivity {
     String faceSeconds, twitSeconds, instaSeconds,
             faceMinutes, twitMinutes, instaMinutes,
             faceHours, twitHours, instaHours,
-            isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds, double2;
+            isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
 
 
     SharedPreferences sharedPreferences;
     CompoundButton compoundButton;
 
-    Double serviceTimeinDouble, double1, double3, usaget;
+    Double serviceTimeinDouble;
     int inService;
 
 
