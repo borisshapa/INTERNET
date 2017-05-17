@@ -18,11 +18,7 @@ public class InTheEnd extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         spf = PreferenceManager.getDefaultSharedPreferences(context);
-        /**
-         *
-         * This is for the notification action InTheEnd it closes the services
-         *
-         * */
+
             Intent it = new Intent(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
             context.sendBroadcast(it);
             Intent service = new Intent();
