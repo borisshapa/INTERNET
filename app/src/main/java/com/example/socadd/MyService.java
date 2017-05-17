@@ -26,12 +26,11 @@ package com.example.socadd;
 
 public class MyService extends Service {
 
+    public static String isStarted, startedApp, reBoot;
     public static int faceDHours, faceDMinutes, faceDSeconds,
             twitDHours, twitDMinutes, twitDSeconds,
             instDHours, instDMinutes, instDSeconds,
             serviceDHours, serviceDMinutes, serviceDSeconds;
-
-    public static String isStarted, startedApp, reBoot;
 
     private Handler serviceControler;
 
