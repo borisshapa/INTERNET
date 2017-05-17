@@ -34,11 +34,11 @@ public class MainActivity extends ActionBarActivity {
             isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
 
 
+    Double serviceTimeinDouble;
+    int inService;
     SharedPreferences sharedPreferences;
     CompoundButton compoundButton;
 
-    Double serviceTimeinDouble;
-    int inService;
 
 
     @Override

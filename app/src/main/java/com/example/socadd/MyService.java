@@ -8,6 +8,7 @@ package com.example.socadd;
  import android.annotation.SuppressLint;
  import android.app.Activity;
  import android.app.ActivityManager;
+ import android.app.Notification;
  import android.app.NotificationManager;
  import android.app.PendingIntent;
  import android.app.Service;
@@ -25,30 +26,27 @@ package com.example.socadd;
 
 public class MyService extends Service {
 
-    /**
-     * Этот сервис определяет зарущенное приложение
-     * и отслеживает время его работы
-     **/
+    public static int faceDHours, faceDMinutes, faceDSeconds,
+            twitDHours, twitDMinutes, twitDSeconds,
+            instDHours, instDMinutes, instDSeconds,
+            serviceDHours, serviceDMinutes, serviceDSeconds;
+
+    public static String isStarted, startedApp, reBoot;
 
     private Handler serviceControler;
+
+    int isFirstFacebook, isFirstTwitter, isFirstInstagram;
+    double condition;
+
     private Handler faceControl = new Handler();
     private Handler twitControl = new Handler();
     private Handler instControl = new Handler();
 
     Boolean facebookB, twitterB, instagramB;
 
+    NotificationManager nm;
+
     SharedPreferences sharedPreferences;
-
-    int isFirstFacebook, isFirstTwitter, isFirstInstagram;
-
-    double condition;
-
-    public static int faceDHours, faceDMinutes, faceDSeconds,
-                      twitDHours, twitDMinutes, twitDSeconds,
-                      instDHours, instDMinutes, instDSeconds,
-                      serviceDHours, serviceDMinutes, serviceDSeconds;
-
-    public static String isStarted, startedApp, reBoot;
 
     @Override
     public IBinder onBind(Intent arg0) {
@@ -81,6 +79,7 @@ public class MyService extends Service {
     @Override
     public void onCreate() {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         reBoot = sharedPreferences.getString("reBoot", "false");
         if (reBoot.isEmpty()) {
             SavePreferences("reBoot", "false");
@@ -282,35 +281,17 @@ public class MyService extends Service {
 
         load();
 
-        Intent deleteIntent = new Intent(this, InTheEnd.class);
-        PendingIntent pendingIntentCancel = PendingIntent.getBroadcast(this, 0,
-                deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setContentTitle("InternetTime")
+                        .setContentText("Сервис запущен");
 
-
-
-
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(
-                this);
-        //TODO вставить название
-        mBuilder.setContentTitle("InternetTime");
-
-
-        mBuilder.setSmallIcon(R.drawable.ic_launcher);
-
-        //TODO оставить только название и иконку
-
-        mBuilder.setOngoing(true);
-
-        Intent resultIntent = new Intent(this, MainActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        stackBuilder.addParentStack(MainActivity.class);
-
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(2, mBuilder.build());
+        Intent targetIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, targetIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+        NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        nManager.notify(0, builder.build());
 
     }
 
