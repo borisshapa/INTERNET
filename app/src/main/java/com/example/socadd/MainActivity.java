@@ -22,12 +22,12 @@ import android.widget.Toast;
 
 @SuppressWarnings("deprecation")
 public class MainActivity extends ActionBarActivity {
-    //TODO разобраться почему когда мы выключаем сервис приложение умирает
+
 
     TextView facebookTextHour, twitterTextHour, instagramTextHour, facebookTextMin,
             twitterTextMin, instagramTextMin, facebookTextSec, twitterTextSec,
             instagramTextSec, myStatementNow, totalAllText, useForDay;
-    // TODO убрать чеки ибо twittercheck всегда true и вообще все check  в сервисе всегда тру
+
     String faceSeconds, twitSeconds, instaSeconds,
             faceMinutes, twitMinutes, instaMinutes,
             faceHours, twitHours, instaHours,
@@ -214,7 +214,7 @@ public class MainActivity extends ActionBarActivity {
         LoadPreferences();
     }
 
-    //TODO убрать это?
+
     @Override
     protected void onPause() {
         super.onPause();
