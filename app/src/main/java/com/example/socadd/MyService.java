@@ -8,7 +8,6 @@ package com.example.socadd;
  import android.annotation.SuppressLint;
  import android.app.Activity;
  import android.app.ActivityManager;
- import android.app.Notification;
  import android.app.NotificationManager;
  import android.app.PendingIntent;
  import android.app.Service;
@@ -21,7 +20,6 @@ package com.example.socadd;
  import android.os.Message;
  import android.preference.PreferenceManager;
  import android.support.v4.app.NotificationCompat;
- import android.support.v4.app.TaskStackBuilder;
  import android.util.Log;
 
 public class MyService extends Service {
@@ -53,7 +51,7 @@ public class MyService extends Service {
         return null;
     }
 
-    public void load() {
+    public void LoadPreferences() {
 
         isStarted = sharedPreferences.getString("compoundButton", "false");
 
@@ -127,7 +125,7 @@ public class MyService extends Service {
                         }
 
                     }
-                    load();
+                    LoadPreferences();
                     SavePreferences("allSocials", String.valueOf((faceDHours + twitDHours + instDHours +
                              ( (double) (faceDMinutes + twitDMinutes + instDMinutes) / 60) +
                                      ( (double) (faceDSeconds + twitDSeconds + instDSeconds) / 3600))));
@@ -135,13 +133,13 @@ public class MyService extends Service {
 
                     if (serviceDSeconds >= 60) {
                         serviceDSeconds = 00;
-                        serviceDMinutes += 1;
+                        serviceDMinutes ++;
 
                     }
 
                     if (serviceDMinutes >= 60) {
                         serviceDMinutes = 00;
-                        serviceDHours += 1;
+                        serviceDHours ++;
 
                     }
 
@@ -276,9 +274,37 @@ public class MyService extends Service {
     }
 
     @SuppressLint("InlinedApi")
+
+
+    public void onDestroy() {
+        super.onDestroy();
+
+        String close = sharedPreferences.getString("InTheEnd", "no");
+
+        if (isStarted.equals("true") && close.equals("no")) {
+            nm.cancelAll();
+            startService(new Intent(MyService.this, MyService.class));
+
+        } else if (isStarted.equals("true") && close.equals("yes")) {
+
+            nm.cancelAll();
+
+        } else {
+
+            nm.cancelAll();
+        }
+
+    }
+
+    public void SavePreferences(String key, String value) {
+        Editor edit = sharedPreferences.edit();
+        edit.putString(key, value);
+        edit.commit();
+
+    }
     private void showNotification(String m) {
 
-        load();
+        LoadPreferences();
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
@@ -291,40 +317,6 @@ public class MyService extends Service {
         builder.setContentIntent(contentIntent);
         NotificationManager nManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         nManager.notify(0, builder.build());
-
-    }
-
-
-    public void onDestroy() {
-        super.onDestroy();
-
-        String close = sharedPreferences.getString("InTheEnd", "no");
-
-        if (isStarted.equals("true") && close.equals("no")) {
-
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancelAll();
-
-            startService(new Intent(MyService.this, MyService.class));
-
-        } else if (isStarted.equals("true") && close.equals("yes")) {
-
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancelAll();
-
-        } else {
-
-            NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancelAll();
-
-        }
-
-    }
-
-    public void SavePreferences(String key, String value) {
-        Editor edit = sharedPreferences.edit();
-        edit.putString(key, value);
-        edit.commit();
 
     }
 
