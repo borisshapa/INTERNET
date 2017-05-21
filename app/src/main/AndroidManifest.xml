@@ -3,9 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.socadd"
     android:versionCode="23"
-    android:versionName="6.5.1.4" >
-
-
+    android:versionName="6.5.1.4">
 
     <uses-permission android:name="android.permission.GET_TASKS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -17,11 +15,11 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="InternetTime"
-        android:theme="@style/Theme.AppCompat" >
+        android:theme="@style/Theme.AppCompat">
         <activity
             android:name=".MainActivity"
             android:excludeFromRecents="true"
-            android:label="Some name" >
+            android:label="Some name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,15 +27,15 @@
             </intent-filter>
         </activity>
 
-
         <service
             android:name=".MyService"
             android:icon="@drawable/icon"
             android:label="InternetTime"
-            android:launchMode="singleTask" >
-        </service>
+            android:launchMode="singleTask"></service>
 
         <receiver android:name=".InTheEnd" />
+
+        <activity android:name=".Main2Activity"></activity>
     </application>
 
 </manifest>

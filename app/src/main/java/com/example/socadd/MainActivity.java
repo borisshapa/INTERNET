@@ -5,7 +5,9 @@ import java.text.DecimalFormat;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -13,24 +15,26 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.Button;
+import android.view.View.OnClickListener;
 @SuppressWarnings("deprecation")
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 
-    TextView facebookTextHour, twitterTextHour, instagramTextHour, facebookTextMin,
-            twitterTextMin, instagramTextMin, facebookTextSec, twitterTextSec,
-            instagramTextSec, myStatementNow, totalAllText, useForDay;
+    TextView facebookTextHour, twitterTextHour, instagramTextHour, vkontakteTextHour, facebookTextMin,
+            twitterTextMin, instagramTextMin, vkontakteTextMin, facebookTextSec, twitterTextSec,
+            instagramTextSec, vkontakteTextSec, myStatementNow, totalAllText, useForDay;
 
-    String faceSeconds, twitSeconds, instaSeconds,
-            faceMinutes, twitMinutes, instaMinutes,
-            faceHours, twitHours, instaHours,
+    String faceSeconds, twitSeconds, instaSeconds, vkSeconds,
+            faceMinutes, twitMinutes, instaMinutes, vkMinutes,
+            faceHours, twitHours, instaHours, vkHours,
             isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
 
 
@@ -39,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
     SharedPreferences sharedPreferences;
     CompoundButton compoundButton;
 
-
+    Button report;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,9 @@ public class MainActivity extends ActionBarActivity {
         instagramTextHour = (TextView) findViewById(R.id.instagram1);
         instagramTextMin = (TextView) findViewById(R.id.instagram2);
         instagramTextSec = (TextView) findViewById(R.id.instagram3);
+        vkontakteTextHour = (TextView) findViewById(R.id.vkontakte1);
+        vkontakteTextMin = (TextView) findViewById(R.id.vkontakte2);
+        vkontakteTextSec = (TextView) findViewById(R.id.vkontakte3);
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
             compoundButton = (Switch) findViewById(R.id.startButton);
@@ -84,6 +91,8 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
         });
+        report = (Button) findViewById(R.id.report);
+        report.setOnClickListener(this);
 
     }
 
@@ -146,7 +155,7 @@ public class MainActivity extends ActionBarActivity {
         //TODO Боря вот это все удалить и переделать!
         if (myCondition.equals("low")) {
             myStatementNow.setText("Low");
-            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+           myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         } else if (myCondition.equals("Average")) {
             myStatementNow.setText("Average");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
@@ -161,7 +170,7 @@ public class MainActivity extends ActionBarActivity {
             myStatementNow.setTextColor(Color.parseColor("#CC0000"));
         } else {
             myStatementNow.setText("Low");
-            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+           myStatementNow.setTextColor(Color.parseColor("#32CD32"));
         }
         //TODO Я имею ввиду только до сюда)
         if (isStarted.equals("true") && isMyServiceRunning(MyService.class)
@@ -183,6 +192,9 @@ public class MainActivity extends ActionBarActivity {
         isEmpty(instaMinutes,instagramTextMin,"instaMinutes");
         isEmpty(instaHours,instagramTextHour,"instaHour");
 
+        isEmpty(vkSeconds,vkontakteTextSec,"vkSeconds");
+        isEmpty(vkMinutes,vkontakteTextMin,"vkMinutes");
+        isEmpty(vkHours,vkontakteTextHour,"vkHour");
     }
 
     private void isEmpty(String shared, TextView text, String name)
@@ -220,4 +232,15 @@ public class MainActivity extends ActionBarActivity {
         super.onPause();
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.report:
+            Intent intent = new Intent(this, Main2Activity.class);
+                startActivity(intent);
+            break;
+            default:
+            break;
+        }
+    }
 }

@@ -28,18 +28,20 @@ public class MyService extends Service {
     public static int faceDHours, faceDMinutes, faceDSeconds,
             twitDHours, twitDMinutes, twitDSeconds,
             instDHours, instDMinutes, instDSeconds,
+            vkDHours, vkDMinutes, vkDSeconds,
             serviceDHours, serviceDMinutes, serviceDSeconds;
-
+/* Нужно что то изменить*/
     private Handler serviceControler;
 
-    int isFirstFacebook, isFirstTwitter, isFirstInstagram;
+    int isFirstFacebook, isFirstTwitter, isFirstInstagram, isFirstVkontakte;
     double condition;
 
     private Handler faceControl = new Handler();
     private Handler twitControl = new Handler();
     private Handler instControl = new Handler();
+    private Handler vkControl = new Handler();
 
-    Boolean facebookB, twitterB, instagramB;
+    Boolean facebookB, twitterB, instagramB, vkontakteB;
 
     NotificationManager nm;
 
@@ -66,6 +68,10 @@ public class MyService extends Service {
         instDHours = Integer.parseInt(sharedPreferences.getString("instaHours", "0"));
         instDMinutes = Integer.parseInt(sharedPreferences.getString("instaMinutes", "0"));
         instDSeconds = Integer.parseInt(sharedPreferences.getString("instaSeconds", "0"));
+
+        vkDHours = Integer.parseInt(sharedPreferences.getString("vkHours", "0"));
+        vkDMinutes = Integer.parseInt(sharedPreferences.getString("vkMinutes", "0"));
+        vkDSeconds = Integer.parseInt(sharedPreferences.getString("vkSeconds", "0"));
 
         serviceDSeconds = Integer.parseInt(sharedPreferences.getString("servicesec", "0"));
         serviceDMinutes = Integer.parseInt(sharedPreferences.getString("servicemin", "0"));
@@ -115,6 +121,10 @@ public class MyService extends Service {
                             SavePreferences("instaMinutes", "00");
                             SavePreferences("instaHours", "00");
 
+                            SavePreferences("vkSeconds", "00");
+                            SavePreferences("vkMinutes", "00");
+                            SavePreferences("vkHours", "00");
+
                             SavePreferences("servicesec", "00");
                             SavePreferences("servicemin", "00");
                             SavePreferences("servicehour", "00");
@@ -126,9 +136,9 @@ public class MyService extends Service {
 
                     }
                     LoadPreferences();
-                    SavePreferences("allSocials", String.valueOf((faceDHours + twitDHours + instDHours +
-                             ( (double) (faceDMinutes + twitDMinutes + instDMinutes) / 60) +
-                                     ( (double) (faceDSeconds + twitDSeconds + instDSeconds) / 3600))));
+                    SavePreferences("allSocials", String.valueOf((faceDHours + twitDHours + instDHours + vkDHours +
+                             ( (double) (faceDMinutes + twitDMinutes + instDMinutes + vkDMinutes) / 60) +
+                                     ( (double) (faceDSeconds + twitDSeconds + instDSeconds + vkDSeconds) / 3600))));
                     serviceDSeconds++;
 
                     if (serviceDSeconds >= 60) {
@@ -146,9 +156,9 @@ public class MyService extends Service {
                     SavePreferences("servicesec", String.valueOf(serviceDSeconds));
                     SavePreferences("servicemin", String.valueOf(serviceDMinutes));
                     SavePreferences("servicehour", String.valueOf(serviceDHours));
-                    condition = ( (faceDHours + twitDHours + instDHours +
-                            ( (double) (faceDMinutes + twitDMinutes + instDMinutes) / 60) +
-                            ( (double) (faceDSeconds + twitDSeconds + instDSeconds) / 3600)) / (double) serviceDHours);
+                    condition = ( (faceDHours + twitDHours + instDHours + vkDHours +
+                            ( (double) (faceDMinutes + twitDMinutes + instDMinutes + vkDMinutes) / 60) +
+                            ( (double) (faceDSeconds + twitDSeconds + instDSeconds + vkDSeconds) / 3600)) / (double) serviceDHours);
 
                 } catch (NullPointerException nullPointerException) {
 
@@ -247,6 +257,19 @@ public class MyService extends Service {
                                 instagramB = false;
                                 instControl.removeCallbacks(timerInstagram);
                                 isFirstInstagram = 0;
+                            }
+                        }
+                        if (startedApp.equals("com.vkontakte.android")) {
+                            if (isFirstVkontakte == 0) {
+                                isFirstVkontakte = 1;
+                                vkontakteB = true;
+                                vkControl.postDelayed(timerVkontakte, 0);
+                            }
+                        } else {
+                            if (isFirstVkontakte == 1) {
+                                vkontakteB = false;
+                                vkControl.removeCallbacks(timerVkontakte);
+                                isFirstVkontakte = 0;
                             }
                         }
                 }
@@ -374,6 +397,28 @@ public class MyService extends Service {
             if (instagramB = true) {
                 setChangeTime(instDSeconds,instDMinutes,instDHours,"instaSeconds","instaMinutes","instaHours");
                 instControl.postDelayed(this, 0);
+
+            }
+        }
+
+    };
+
+
+    private Runnable timerVkontakte = new Runnable() {
+
+        public void run() {
+
+            try {
+
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            if (vkontakteB = true) {
+
+                setChangeTime(vkDSeconds,vkDMinutes,vkDHours,"vkSeconds","vkMinutes","vkHours");
+                vkControl.postDelayed(this, 0);
 
             }
         }
