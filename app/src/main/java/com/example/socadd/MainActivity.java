@@ -6,6 +6,7 @@ import java.text.DecimalFormat;
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,15 +31,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
     TextView facebookTextHour, twitterTextHour, instagramTextHour, vkontakteTextHour, facebookTextMin,
             twitterTextMin, instagramTextMin, vkontakteTextMin, facebookTextSec, twitterTextSec,
-            instagramTextSec, vkontakteTextSec, myStatementNow, totalAllText, useForDay;
+            instagramTextSec, vkontakteTextSec;
 
     String faceSeconds, twitSeconds, instaSeconds, vkSeconds,
             faceMinutes, twitMinutes, instaMinutes, vkMinutes,
             faceHours, twitHours, instaHours, vkHours,
             isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
 
-
-    Double serviceTimeinDouble;
     int inService;
     SharedPreferences sharedPreferences;
     CompoundButton compoundButton;
@@ -85,6 +84,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
                     Toast.makeText(getApplicationContext(), "InternetTime запущено", Toast.LENGTH_SHORT).show();
                 } else {
                     SavePreferences("compoundButton", "false");
+
                     stopService(new Intent(MainActivity.this, MyService.class));
                 }
             }
@@ -179,7 +179,6 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
         }
     }
 
-    // Проверяет запущен ли сервис чтобы изменить checkbox на случай убийства системой
     private boolean isMyServiceRunning(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
         for (RunningServiceInfo service : manager

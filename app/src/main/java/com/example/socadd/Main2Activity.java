@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
@@ -19,12 +20,9 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
     Button back,clear;
     Double serviceTimeinDouble;
     int inService;
-    TextView myStatementNow, totalAllText, useForDay;
+    TextView myStatementNow, totalAllText, useForDay,s1,s2,s3;
     SharedPreferences sharedPreferences;
-    String faceSeconds, twitSeconds, instaSeconds, vkSeconds,
-            faceMinutes, twitMinutes, instaMinutes, vkMinutes,
-            faceHours, twitHours, instaHours, vkHours,
-            isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
+    String isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +30,10 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         totalAllText = (TextView) findViewById(R.id.total);
         myStatementNow = (TextView) findViewById(R.id.state);
         useForDay = (TextView) findViewById(R.id.textView6);
+        s1 = (TextView) findViewById(R.id.textView22);
+        s2 = (TextView) findViewById(R.id.textView4);
+        s3 = (TextView) findViewById(R.id.textView1);
+
         back = (Button) findViewById(R.id.back);
         clear=(Button)findViewById(R.id.clear);
         LoadPreferences();
@@ -71,23 +73,64 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
 
         if (myCondition.equals("low")) {
             myStatementNow.setText("Низкий");
-            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
-
+            myStatementNow.setTextColor(Color.parseColor("#ffffff"));
+            totalAllText.setTextColor(Color.parseColor("#ffffff"));
+            useForDay.setTextColor(Color.parseColor("#ffffff"));
+            s1.setTextColor(Color.parseColor("#ffffff"));
+            s2.setTextColor(Color.parseColor("#ffffff"));
+            s3.setTextColor(Color.parseColor("#ffffff"));
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            view.setBackgroundColor(Color.parseColor("#2e7d32"));
         } else if (myCondition.equals("Average")) {
             myStatementNow.setText("Ненормальный");
-            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+            myStatementNow.setTextColor(Color.parseColor("#ffffff"));
+            totalAllText.setTextColor(Color.parseColor("#ffffff"));
+            useForDay.setTextColor(Color.parseColor("#ffffff"));
+            s1.setTextColor(Color.parseColor("#ffffff"));
+            s2.setTextColor(Color.parseColor("#ffffff"));
+            s3.setTextColor(Color.parseColor("#ffffff"));
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            view.setBackgroundColor(Color.parseColor("#6c6f00"));
         } else if (myCondition.equals("attention")) {
             myStatementNow.setText("Внимание");
-            myStatementNow.setTextColor(Color.parseColor("#fcce1c"));
+            myStatementNow.setTextColor(Color.parseColor("#000000"));
+            totalAllText.setTextColor(Color.parseColor("#000000"));
+            useForDay.setTextColor(Color.parseColor("#000000"));
+            s1.setTextColor(Color.parseColor("#000000"));
+            s2.setTextColor(Color.parseColor("#000000"));
+            s3.setTextColor(Color.parseColor("#000000"));
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            view.setBackgroundColor(Color.parseColor("#ff833a"));
         } else if (myCondition.equals("Addicted")) {
             myStatementNow.setText("Зависимость");
-            myStatementNow.setTextColor(Color.parseColor("#FF9933"));
+            myStatementNow.setTextColor(Color.parseColor("#000000"));
+            totalAllText.setTextColor(Color.parseColor("#000000"));
+            useForDay.setTextColor(Color.parseColor("#000000"));
+            s1.setTextColor(Color.parseColor("#000000"));
+            s2.setTextColor(Color.parseColor("#000000"));
+            s3.setTextColor(Color.parseColor("#000000"));
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            view.setBackgroundColor(Color.parseColor("#e65100"));
         } else if (myCondition.equals("DANGER")) {
             myStatementNow.setText("Опасность");
-            myStatementNow.setTextColor(Color.parseColor("#CC0000"));
+            myStatementNow.setTextColor(Color.parseColor("#ffffff"));
+            totalAllText.setTextColor(Color.parseColor("#ffffff"));
+            useForDay.setTextColor(Color.parseColor("#ffffff"));
+            s1.setTextColor(Color.parseColor("#ffffff"));
+            s2.setTextColor(Color.parseColor("#ffffff"));
+            s3.setTextColor(Color.parseColor("#ffffff"));
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            view.setBackgroundColor(Color.parseColor("#dd2c00"));
         } else {
             myStatementNow.setText("Стандартный");
-            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+            myStatementNow.setTextColor(Color.parseColor("#ffffff"));
+            totalAllText.setTextColor(Color.parseColor("#ffffff"));
+            useForDay.setTextColor(Color.parseColor("#ffffff"));
+            s1.setTextColor(Color.parseColor("#ffffff"));
+            s2.setTextColor(Color.parseColor("#ffffff"));
+            s3.setTextColor(Color.parseColor("#ffffff"));
+            RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+            view.setBackgroundColor(Color.parseColor("#2e7d32"));
         }
 
         if (allSocials.isEmpty()) {
@@ -99,8 +142,6 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             if (inService > 24) {
                 useForDay.setText(doubleHelper.format((Double.parseDouble(allSocials) / Double.parseDouble(doubleHelper.format((double) inService / 24.0))))
                         + "Часов/День");
-            } else {
-                useForDay.setText(" ... 24ч");
             }
         }
 
@@ -151,7 +192,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 totalAllText.setText("0" + "Часов");
                 useForDay.setText(" ... 24ч");
                 break;
-            default:
+             default:
                 break;
         }
     }

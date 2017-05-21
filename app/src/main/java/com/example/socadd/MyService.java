@@ -101,41 +101,7 @@ public class MyService extends Service {
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
                 try {
-                    if (reBoot.equals("true")) {
-                        //TODO запилиить очищение , которое не чекает время
-                        Calendar c = Calendar.getInstance();
-                        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-                        String strDate = sdf.format(c.getTime());
 
-                        if (strDate.equals("00:00:00")) {
-
-                            SavePreferences("faceSeconds", "00");
-                            SavePreferences("faceMinutes", "00");
-                            SavePreferences("faceHours", "00");
-
-                            SavePreferences("twitSeconds", "00");
-                            SavePreferences("twitMinutes", "00");
-                            SavePreferences("twitHours", "00");
-
-                            SavePreferences("instaSeconds", "00");
-                            SavePreferences("instaMinutes", "00");
-                            SavePreferences("instaHours", "00");
-
-                            SavePreferences("vkSeconds", "00");
-                            SavePreferences("vkMinutes", "00");
-                            SavePreferences("vkHours", "00");
-
-                            SavePreferences("servicesec", "00");
-                            SavePreferences("servicemin", "00");
-                            SavePreferences("servicehour", "00");
-
-                            SavePreferences("myStatementNow", "low");
-                            SavePreferences("allSocials", "0");
-
-                        }
-                        //android:layout_alignBaseline="@+id/clear"
-                      //  android:layout_alignBottom="@+id/clear"
-                    }
                     LoadPreferences();
                     SavePreferences("allSocials", String.valueOf((faceDHours + twitDHours + instDHours + vkDHours +
                              ( (double) (faceDMinutes + twitDMinutes + instDMinutes + vkDMinutes) / 60) +

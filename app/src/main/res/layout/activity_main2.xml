@@ -66,19 +66,6 @@
                     android:layout_below="@+id/textView4" />
 
                 <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="0 Hours/Day"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="#000000"
-                    android:textSize="30sp"
-                    android:layout_alignBaseline="@+id/textView1"
-                    android:layout_alignBottom="@+id/textView1"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
                     android:id="@+id/textView22"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -142,6 +129,19 @@
                     android:layout_alignParentBottom="true"
                     android:layout_toRightOf="@+id/textView4"
                     android:layout_toEndOf="@+id/textView4" />
+
+                <TextView
+                    android:id="@+id/textView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0 Hours/Day"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#000000"
+                    android:textSize="30sp"
+                    android:layout_alignBaseline="@+id/textView1"
+                    android:layout_alignBottom="@+id/textView1"
+                    android:layout_toRightOf="@+id/textView1"
+                    android:layout_toEndOf="@+id/textView1" />
             </RelativeLayout>
         </RelativeLayout>
 
