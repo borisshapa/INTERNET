@@ -164,7 +164,7 @@ public class MyService extends Service {
 
                 }
                 //TODO возможно переделать систему определения твоего состояния / зависимости
-                if (serviceDHours > 4) {
+                if (serviceDHours > 0) {
 
                     if (condition < 0.1) {
 
@@ -213,12 +213,11 @@ public class MyService extends Service {
 
                 ActivityManager am = (ActivityManager) getApplicationContext().getSystemService(Activity.ACTIVITY_SERVICE);
                 startedApp = am.getRunningTasks(1).get(0).topActivity.getPackageName();
-                //TODO убрать в самом конце
-                Log.d("MyLogs", startedApp);
+
 
                 if (isStarted.equals("true")) {
                         //TODO убрать calendar
-                        //TODO проверить такой ли packageName у всех нужных приложений
+
                         if (startedApp.equals("com.facebook.katana") || startedApp.equals("com.android.calendar")) {
                             if (isFirstFacebook == 0) {
                                 isFirstFacebook = 1;

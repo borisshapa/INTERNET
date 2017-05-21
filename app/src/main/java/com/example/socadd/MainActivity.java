@@ -51,9 +51,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        totalAllText = (TextView) findViewById(R.id.total);
-        myStatementNow = (TextView) findViewById(R.id.state);
-        useForDay = (TextView) findViewById(R.id.textView6);
+
 
         facebookTextHour = (TextView) findViewById(R.id.facebook1);
         facebookTextMin = (TextView) findViewById(R.id.facebook2);
@@ -137,42 +135,15 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
         if (allSocials.isEmpty()) {
             SavePreferences("allSocials", "0 Hours");
         } else {
-            DecimalFormat doubleHelper = new DecimalFormat("#.##");
-            totalAllText.setText(doubleHelper.format(Double.parseDouble(allSocials)) + "Часов");
 
-            if (inService > 24) {
-                useForDay.setText(doubleHelper.format((serviceTimeinDouble / Double.parseDouble(doubleHelper.format((double) inService / 24.0))))
-                        + "Часов/День");
-            } else {
-                useForDay.setText("Обслуживание начнется после 24ч");
-            }
         }
 
         if (myCondition.isEmpty()) {
             SavePreferences("myStatementNow", "low");
         }
         myCondition = sharedPreferences.getString("myStatementNow", "low");
-        //TODO Боря вот это все удалить и переделать!
-        if (myCondition.equals("low")) {
-            myStatementNow.setText("Low");
-           myStatementNow.setTextColor(Color.parseColor("#32CD32"));
-        } else if (myCondition.equals("Average")) {
-            myStatementNow.setText("Average");
-            myStatementNow.setTextColor(Color.parseColor("#32CD32"));
-        } else if (myCondition.equals("attention")) {
-            myStatementNow.setText("ATTENTION");
-            myStatementNow.setTextColor(Color.parseColor("#fcce1c"));
-        } else if (myCondition.equals("Addicted")) {
-            myStatementNow.setText("Addcited");
-            myStatementNow.setTextColor(Color.parseColor("#FF9933"));
-        } else if (myCondition.equals("DANGER")) {
-            myStatementNow.setText("Danger");
-            myStatementNow.setTextColor(Color.parseColor("#CC0000"));
-        } else {
-            myStatementNow.setText("Low");
-           myStatementNow.setTextColor(Color.parseColor("#32CD32"));
-        }
-        //TODO Я имею ввиду только до сюда)
+
+
         if (isStarted.equals("true") && isMyServiceRunning(MyService.class)
                 && isStarted.equals("true")) {
             compoundButton.setChecked(true);
