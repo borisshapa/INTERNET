@@ -16,7 +16,7 @@ import java.text.DecimalFormat;
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener{
 
-    Button back;
+    Button back,clear;
     Double serviceTimeinDouble;
     int inService;
     TextView myStatementNow, totalAllText, useForDay;
@@ -33,8 +33,10 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         myStatementNow = (TextView) findViewById(R.id.state);
         useForDay = (TextView) findViewById(R.id.textView6);
         back = (Button) findViewById(R.id.back);
+        clear=(Button)findViewById(R.id.clear);
         LoadPreferences();
         back.setOnClickListener(this);
+        clear.setOnClickListener(this);
     }
     public void LoadPreferences() {
 
@@ -70,6 +72,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         if (myCondition.equals("low")) {
             myStatementNow.setText("Низкий");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+
         } else if (myCondition.equals("Average")) {
             myStatementNow.setText("Ненормальный");
             myStatementNow.setTextColor(Color.parseColor("#32CD32"));
@@ -88,7 +91,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         }
 
         if (allSocials.isEmpty()) {
-            SavePreferences("allSocials", "0 Hours");
+            SavePreferences("allSocials", "0 Часов");
         } else {
             DecimalFormat doubleHelper = new DecimalFormat("#.##");
              totalAllText.setText(doubleHelper.format(Double.parseDouble(allSocials)) + "Часов");
@@ -109,6 +112,7 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         SharedPreferences.Editor edit = sharedPreferences.edit();
         edit.putString(stringName, stringValue);
         edit.commit();
+
     }
 
 
@@ -118,6 +122,34 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
             case R.id.back:
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.clear:
+                SavePreferences("faceSeconds", "00");
+                SavePreferences("faceMinutes", "00");
+                SavePreferences("faceHours", "00");
+
+                SavePreferences("twitSeconds", "00");
+                SavePreferences("twitMinutes", "00");
+                SavePreferences("twitHours", "00");
+
+                SavePreferences("instaSeconds", "00");
+                SavePreferences("instaMinutes", "00");
+                SavePreferences("instaHours", "00");
+
+                SavePreferences("vkSeconds", "00");
+                SavePreferences("vkMinutes", "00");
+                SavePreferences("vkHours", "00");
+
+                SavePreferences("servicesec", "00");
+                SavePreferences("servicemin", "00");
+                SavePreferences("servicehour", "00");
+
+                SavePreferences("myStatementNow", "low");
+                SavePreferences("allSocials", "0");
+                myStatementNow.setText("Низкий");
+                myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+                totalAllText.setText("0" + "Часов");
+                useForDay.setText(" ... 24ч");
                 break;
             default:
                 break;

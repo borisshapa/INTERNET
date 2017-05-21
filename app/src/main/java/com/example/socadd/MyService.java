@@ -133,7 +133,8 @@ public class MyService extends Service {
                             SavePreferences("allSocials", "0");
 
                         }
-
+                        //android:layout_alignBaseline="@+id/clear"
+                      //  android:layout_alignBottom="@+id/clear"
                     }
                     LoadPreferences();
                     SavePreferences("allSocials", String.valueOf((faceDHours + twitDHours + instDHours + vkDHours +
@@ -166,43 +167,33 @@ public class MyService extends Service {
                 //TODO возможно переделать систему определения твоего состояния / зависимости
                 if (serviceDHours > 0) {
 
-                    if (condition < 0.1) {
+                    if (condition <= 0.2) {
 
                         SavePreferences("myStatementNow", "low");
 
-                        showNotification("State : Low");
-
                     } else {
 
-                        if (condition < 0.2 && condition > 0.1) {
+                        if (condition > 0.2 && condition < 0.35) {
 
                             SavePreferences("myStatementNow", "Average");
 
-                            showNotification("State : Average");
-
                         } else {
 
-                            if (condition < 0.3 && condition > 0.2) {
+                            if (condition >= 0.35 && condition < 0.5) {
 
                                 SavePreferences("myStatementNow", "attention");
 
-                                showNotification("State : Attention");
-
                             } else {
 
-                                if (condition < 0.5 && condition > 0.4) {
+                                if (condition >= 0.5 && condition < 0.75) {
 
                                     SavePreferences("myStatementNow", "Addicted");
 
-                                    showNotification("State : Addicted");
-
                                 } else {
-                                    //TODO пофиксить баг для значения 0.55
-                                    if (condition > 0.6) {
+
+                                    if (condition >= 0.75) {
 
                                         SavePreferences("myStatementNow", "DANGER");
-
-                                        showNotification("State : DANGER");
 
                                     }
                                 }
