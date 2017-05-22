@@ -1,4 +1,4 @@
-package com.example.socadd;
+package com.example.intertime;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.socadd", appContext.getPackageName());
+        assertEquals("com.example.intertime", appContext.getPackageName());
     }
 }

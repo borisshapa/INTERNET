@@ -1,4 +1,4 @@
-package com.example.socadd;
+package com.example.intertime;
 
 import org.junit.Test;
 

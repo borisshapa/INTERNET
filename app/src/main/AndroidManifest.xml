@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.socadd"
+    package="com.example.intertime"
     android:versionCode="23"
     android:versionName="6.5.1.4">
 
@@ -13,11 +13,11 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/icon"
+        android:icon="@drawable/iconit"
         android:label="InternetTime"
         android:theme="@style/Theme.AppCompat">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.intertime.MainActivity"
             android:excludeFromRecents="true"
             android:label="Internet Time">
             <intent-filter>
@@ -28,12 +28,12 @@
         </activity>
 
         <service
-            android:name=".MyService"
-            android:icon="@drawable/icon"
+            android:name="com.example.intertime.MyService"
+            android:icon="@drawable/iconit"
             android:label="InternetTime"
             android:launchMode="singleTask"></service>
 
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name="com.example.intertime.Main2Activity"></activity>
     </application>
 
 </manifest>

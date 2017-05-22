@@ -1,4 +1,4 @@
-package com.example.socadd;
+package com.example.intertime;
 
  import android.annotation.SuppressLint;
  import android.app.Activity;
@@ -26,10 +26,12 @@ public class MyService extends Service {
             vkDHours, vkDMinutes, vkDSeconds,
             serviceDHours, serviceDMinutes, serviceDSeconds;
 
-    private Handler serviceControler;
 
     int isFirstFacebook, isFirstTwitter, isFirstInstagram, isFirstVkontakte;
     double condition;
+
+
+    private Handler serviceControler;
 
     private Handler faceControl = new Handler();
     private Handler twitControl = new Handler();
@@ -122,13 +124,14 @@ public class MyService extends Service {
                     SavePreferences("servicehour", String.valueOf(serviceDHours));
                     condition = ( (faceDHours + twitDHours + instDHours + vkDHours)*3600 +
                             (faceDMinutes + twitDMinutes + instDMinutes + vkDMinutes) * 60 +
-                             (faceDSeconds + twitDSeconds + instDSeconds + vkDSeconds) ) / (double) (serviceDHours*3600+serviceDMinutes*60+serviceDSeconds);
+                             (faceDSeconds + twitDSeconds + instDSeconds + vkDSeconds) ) /
+                            (double) (serviceDHours*3600+serviceDMinutes*60+serviceDSeconds);
 
                 } catch (NullPointerException nullPointerException) {
 
                 }
 
-                if (serviceDHours > 0) {
+                if (serviceDHours >= 0) {
 
                     if (condition <= 0.2) {
 
@@ -282,7 +285,7 @@ public class MyService extends Service {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_launcher)
+                        .setSmallIcon(R.drawable.iconit)
                         .setContentTitle("InternetTime")
                         .setContentText("Сервис запущен");
 

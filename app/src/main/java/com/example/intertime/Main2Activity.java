@@ -1,4 +1,4 @@
-package com.example.socadd;
+package com.example.intertime;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,8 +8,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.view.View.OnClickListener;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -55,17 +53,16 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         i2=twitDHours*3600+twitDMinutes*60+twitDSeconds;
         i3=instDHours*3600+instDMinutes*60+instDSeconds;
         i4=vkDHours*3600+vkDMinutes*60+vkDSeconds;
-        if(i1==i2 || i1==i3 || i1==i4)
-        {
-            i1+=2;
-        }
-        if(i2==i3 || i2==i4)
-        {
-            i2+=2;
-        }
-        if(i4==i3)
-        {
-            i3+=2;
+        for(int i=0;i<4;i++) {
+            if (i1 == i2 || i1 == i3 || i1 == i4) {
+                i1 += 2;
+            }
+            if (i2 == i3 || i2 == i4) {
+                i2 += 2;
+            }
+            if (i4 == i3) {
+                i3 += 2;
+            }
         }
         a[0]=i1;
         a[1]=i2;
@@ -287,7 +284,14 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
                 SavePreferences("myStatementNow", "low");
                 SavePreferences("allSocials", "0");
                 myStatementNow.setText("Низкий");
-                myStatementNow.setTextColor(Color.parseColor("#32CD32"));
+                myStatementNow.setTextColor(Color.parseColor("#ffffff"));
+                totalAllText.setTextColor(Color.parseColor("#ffffff"));
+                useForDay.setTextColor(Color.parseColor("#ffffff"));
+                s1.setTextColor(Color.parseColor("#ffffff"));
+                s2.setTextColor(Color.parseColor("#ffffff"));
+                s3.setTextColor(Color.parseColor("#ffffff"));
+                RelativeLayout view = (RelativeLayout) findViewById(R.id.relativeLayout3);
+                view.setBackgroundColor(Color.parseColor("#2e7d32"));
                 totalAllText.setText("0" + "Часов");
                 useForDay.setText(" ... 24ч");
                 break;

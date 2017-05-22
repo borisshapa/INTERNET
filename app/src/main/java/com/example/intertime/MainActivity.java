@@ -1,7 +1,5 @@
-package com.example.socadd;
+package com.example.intertime;
 
-
-import java.text.DecimalFormat;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
