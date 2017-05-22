@@ -19,7 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:excludeFromRecents="true"
-            android:label="Some name">
+            android:label="Internet Time">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

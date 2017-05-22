@@ -46,7 +46,7 @@
                 android:layout_toRightOf="@+id/facebookimage"
                 android:text="Facebook"
                 android:textColor="#000000"
-                android:textSize="25sp"
+
                 android:typeface="sans" />
 
             <TableRow
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -72,7 +72,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -81,7 +81,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -99,7 +99,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
             </TableRow>
 
@@ -122,7 +122,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="Instagram"
                 android:textColor="#000000"
-                android:textSize="25sp"
+
                 android:typeface="sans" />
 
             <TableRow
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -147,7 +147,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -156,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -174,7 +174,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
             </TableRow>
 
@@ -198,7 +198,7 @@
                 android:layout_toStartOf="@+id/instagram"
                 android:text="Twitter"
                 android:textColor="#000000"
-                android:textSize="25sp"
+
                 android:typeface="sans" />
 
             <TableRow
@@ -214,7 +214,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -223,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -232,7 +232,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -241,7 +241,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -250,7 +250,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
             </TableRow>
 
@@ -262,7 +262,7 @@
                 android:layout_alignStart="@+id/twitterimage"
                 android:layout_below="@+id/twitterimage"
                 android:layout_marginTop="21dp"
-                ads:srcCompat="@drawable/vkontakte" />
+                ads:srcCompat="@drawable/rsz_vk" />
 
             <TextView
                 android:id="@+id/vkontaktetext"
@@ -274,7 +274,7 @@
                 android:layout_toStartOf="@+id/twitter"
                 android:text="Vkontakte"
                 android:textColor="#000000"
-                android:textSize="25sp"
+
                 android:typeface="sans" />
 
             <TableRow
@@ -291,7 +291,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -300,7 +300,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -309,7 +309,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -318,7 +318,7 @@
                     android:layout_height="wrap_content"
                     android:text=":"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
                 <TextView
@@ -327,7 +327,7 @@
                     android:layout_height="wrap_content"
                     android:text="00"
                     android:textColor="#000000"
-                    android:textSize="25sp"
+
                     android:typeface="sans" />
 
             </TableRow>
@@ -349,13 +349,13 @@
             android:layout_height="wrap_content"
             android:text="ON/OFF"
             android:textColor="@android:color/black"
-            android:textSize="25sp"
+
             android:textStyle="bold"
             android:typeface="sans"
-            android:layout_alignBaseline="@+id/report"
             android:layout_alignBottom="@+id/report"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_alignParentEnd="true"
+            android:layout_alignTop="@+id/report" />
 
         <Button
             android:id="@+id/report"
@@ -364,13 +364,11 @@
             android:background="@drawable/background"
             android:text="Report"
             android:textColor="@android:color/black"
-            android:textSize="24sp"
+
             android:textStyle="bold"
-            android:layout_centerVertical="true"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp" />
+            android:layout_alignParentStart="true" />
     </RelativeLayout>
 
 </RelativeLayout>

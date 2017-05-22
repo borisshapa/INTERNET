@@ -5,14 +5,10 @@ import java.text.DecimalFormat;
 
 import android.app.ActivityManager;
 import android.app.ActivityManager.RunningServiceInfo;
-import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
@@ -84,19 +80,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
                     Toast.makeText(getApplicationContext(), "InternetTime запущено", Toast.LENGTH_SHORT).show();
                 } else {
                     SavePreferences("compoundButton", "false");
-
                     stopService(new Intent(MainActivity.this, MyService.class));
                 }
             }
         });
         report = (Button) findViewById(R.id.report);
         report.setOnClickListener(this);
-
     }
-
-    /*
-     * Преобразует sharedPreferences в tring
-     */
 
     public void SavePreferences(String stringName, String stringValue) {
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -134,15 +124,11 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
         if (allSocials.isEmpty()) {
             SavePreferences("allSocials", "0 Hours");
-        } else {
-
         }
-
         if (myCondition.isEmpty()) {
             SavePreferences("myStatementNow", "low");
         }
         myCondition = sharedPreferences.getString("myStatementNow", "low");
-
 
         if (isStarted.equals("true") && isMyServiceRunning(MyService.class)
                 && isStarted.equals("true")) {

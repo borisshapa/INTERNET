@@ -1,10 +1,5 @@
 package com.example.socadd;
 
-/*
- * Created by S_P_ 10.05.2017.
- */
- import java.text.SimpleDateFormat;
- import java.util.Calendar;
  import android.annotation.SuppressLint;
  import android.app.Activity;
  import android.app.ActivityManager;
@@ -30,7 +25,7 @@ public class MyService extends Service {
             instDHours, instDMinutes, instDSeconds,
             vkDHours, vkDMinutes, vkDSeconds,
             serviceDHours, serviceDMinutes, serviceDSeconds;
-/* Нужно что то изменить*/
+
     private Handler serviceControler;
 
     int isFirstFacebook, isFirstTwitter, isFirstInstagram, isFirstVkontakte;
@@ -81,13 +76,15 @@ public class MyService extends Service {
 
     @Override
     public void onCreate() {
+
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         reBoot = sharedPreferences.getString("reBoot", "false");
         if (reBoot.isEmpty()) {
             SavePreferences("reBoot", "false");
         }
-        showNotification("m");
+        String uxo=sharedPreferences.getString("compoundButton", "false");
+        if(!uxo.equals("false")) showNotification("m");
     }
 
     @SuppressLint({"HandlerLeak", "SimpleDateFormat"})
@@ -130,7 +127,7 @@ public class MyService extends Service {
                 } catch (NullPointerException nullPointerException) {
 
                 }
-                //TODO возможно переделать систему определения твоего состояния / зависимости
+
                 if (serviceDHours > 0) {
 
                     if (condition <= 0.2) {
@@ -171,11 +168,9 @@ public class MyService extends Service {
                 ActivityManager am = (ActivityManager) getApplicationContext().getSystemService(Activity.ACTIVITY_SERVICE);
                 startedApp = am.getRunningTasks(1).get(0).topActivity.getPackageName();
 
-
+                Log.d("myLogs",startedApp);
                 if (isStarted.equals("true")) {
-                        //TODO убрать calendar
-
-                        if (startedApp.equals("com.facebook.katana") || startedApp.equals("com.android.calendar")) {
+                        if (startedApp.equals("com.facebook.katana") || startedApp.equals("com.facebook.lite")) {
                             if (isFirstFacebook == 0) {
                                 isFirstFacebook = 1;
                                 facebookB = true;
@@ -332,7 +327,7 @@ public class MyService extends Service {
 
             if (twitterB = true) {
 
-                setChangeTime(twitDSeconds,twitDMinutes,twitDHours,"instaSeconds","instaMinutes","instaHours");
+                setChangeTime(twitDSeconds,twitDMinutes,twitDHours,"twitSeconds","twitMinutes","twitHours");
                 twitControl.postDelayed(this, 0);
 
             }

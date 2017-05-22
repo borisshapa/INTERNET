@@ -10,16 +10,24 @@ import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
+import java.util.Arrays;
 
 public class Main2Activity extends AppCompatActivity implements View.OnClickListener{
 
     Button back,clear;
-    Double serviceTimeinDouble;
     int inService;
+    public static int faceDHours, faceDMinutes, faceDSeconds,
+            twitDHours, twitDMinutes, twitDSeconds,
+            instDHours, instDMinutes, instDSeconds,
+            vkDHours, vkDMinutes, vkDSeconds;
+    private ImageView mImage1,mImage2,mImage3,mImage4;
+    long i1,i2,i3,i4;
+    long a[]= new long[4];
     TextView myStatementNow, totalAllText, useForDay,s1,s2,s3;
     SharedPreferences sharedPreferences;
     String isStarted, myCondition, allSocials, serviceHours, serviceMinutes, serviceSeconds;
@@ -39,6 +47,80 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         LoadPreferences();
         back.setOnClickListener(this);
         clear.setOnClickListener(this);
+        mImage1 = (ImageView) findViewById(R.id.imageView9);
+        mImage2 = (ImageView) findViewById(R.id.imageView2);
+        mImage3 = (ImageView) findViewById(R.id.imageView3);
+        mImage4 = (ImageView) findViewById(R.id.imageView4);
+        i1=faceDHours*3600+faceDMinutes*60+faceDSeconds;
+        i2=twitDHours*3600+twitDMinutes*60+twitDSeconds;
+        i3=instDHours*3600+instDMinutes*60+instDSeconds;
+        i4=vkDHours*3600+vkDMinutes*60+vkDSeconds;
+        if(i1==i2 || i1==i3 || i1==i4)
+        {
+            i1+=2;
+        }
+        if(i2==i3 || i2==i4)
+        {
+            i2+=2;
+        }
+        if(i4==i3)
+        {
+            i3+=2;
+        }
+        a[0]=i1;
+        a[1]=i2;
+        a[2]=i3;
+        a[3]=i4;
+        Arrays.sort(a);
+
+        if(a[0]==i1){
+            mImage1.setImageResource(R.drawable.facebook);
+        }
+        if(a[0]==i2){
+            mImage1.setImageResource(R.drawable.twitter);
+        }
+        if(a[0]==i3){
+            mImage1.setImageResource(R.drawable.instagram);
+        }
+        if(a[0]==i4){
+            mImage1.setImageResource(R.drawable.rsz_vk_icon);
+        }
+        if(a[1]==i1){
+            mImage2.setImageResource(R.drawable.facebook);
+        }
+        if(a[1]==i2){
+            mImage2.setImageResource(R.drawable.twitter);
+        }
+        if(a[1]==i4){
+            mImage2.setImageResource(R.drawable.rsz_vk_icon);
+        }
+        if(a[1]==i3){
+            mImage2.setImageResource(R.drawable.instagram);
+        }
+        if(a[2]==i1){
+            mImage3.setImageResource(R.drawable.facebook);
+        }
+        if(a[2]==i4){
+            mImage3.setImageResource(R.drawable.rsz_vk_icon);
+        }
+        if(a[2]==i3){
+            mImage3.setImageResource(R.drawable.instagram);
+        }
+        if(a[2]==i2){
+            mImage3.setImageResource(R.drawable.twitter);
+        }
+        if(a[3]==i4){
+            mImage4.setImageResource(R.drawable.rsz_vk_icon);
+        }
+        if(a[3]==i3){
+            mImage4.setImageResource(R.drawable.instagram);
+        }
+        if(a[3]==i2){
+            mImage4.setImageResource(R.drawable.twitter);
+        }
+        if(a[3]==i1){
+            mImage4.setImageResource(R.drawable.facebook);
+        }
     }
     public void LoadPreferences() {
 
@@ -47,6 +129,23 @@ public class Main2Activity extends AppCompatActivity implements View.OnClickList
         isStarted = sharedPreferences.getString("compoundButton", "false");
         myCondition = sharedPreferences.getString("myStatementNow", "low");
         allSocials = sharedPreferences.getString("allSocials", "0");
+
+        faceDHours = Integer.parseInt(sharedPreferences.getString("faceHours", "0"));
+        faceDMinutes = Integer.parseInt(sharedPreferences.getString("faceMinutes", "0"));
+        faceDSeconds = Integer.parseInt(sharedPreferences.getString("faceSeconds", "0"));
+
+        twitDHours = Integer.parseInt(sharedPreferences.getString("twitHours", "0"));
+        twitDMinutes = Integer.parseInt(sharedPreferences.getString("twitMinutes", "0"));
+        twitDSeconds = Integer.parseInt(sharedPreferences.getString("twitSeconds", "0"));
+
+        instDHours = Integer.parseInt(sharedPreferences.getString("instaHours", "0"));
+        instDMinutes = Integer.parseInt(sharedPreferences.getString("instaMinutes", "0"));
+        instDSeconds = Integer.parseInt(sharedPreferences.getString("instaSeconds", "0"));
+
+        vkDHours = Integer.parseInt(sharedPreferences.getString("vkHours", "0"));
+        vkDMinutes = Integer.parseInt(sharedPreferences.getString("vkMinutes", "0"));
+        vkDSeconds = Integer.parseInt(sharedPreferences.getString("vkSeconds", "0"));
+
 
         serviceHours = sharedPreferences.getString("servicehour", "0");
         serviceMinutes = sharedPreferences.getString("servicemin", "0");
