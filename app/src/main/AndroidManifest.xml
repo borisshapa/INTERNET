@@ -33,8 +33,6 @@
             android:label="InternetTime"
             android:launchMode="singleTask"></service>
 
-        <receiver android:name=".InTheEnd" />
-
         <activity android:name=".Main2Activity"></activity>
     </application>
 

@@ -120,9 +120,9 @@ public class MyService extends Service {
                     SavePreferences("servicesec", String.valueOf(serviceDSeconds));
                     SavePreferences("servicemin", String.valueOf(serviceDMinutes));
                     SavePreferences("servicehour", String.valueOf(serviceDHours));
-                    condition = ( (faceDHours + twitDHours + instDHours + vkDHours +
-                            ( (double) (faceDMinutes + twitDMinutes + instDMinutes + vkDMinutes) / 60) +
-                            ( (double) (faceDSeconds + twitDSeconds + instDSeconds + vkDSeconds) / 3600)) / (double) serviceDHours);
+                    condition = ( (faceDHours + twitDHours + instDHours + vkDHours)*3600 +
+                            (faceDMinutes + twitDMinutes + instDMinutes + vkDMinutes) * 60 +
+                             (faceDSeconds + twitDSeconds + instDSeconds + vkDSeconds) ) / (double) (serviceDHours*3600+serviceDMinutes*60+serviceDSeconds);
 
                 } catch (NullPointerException nullPointerException) {
 
